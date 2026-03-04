@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GithubIcon, Linkedin01Icon, NewTwitterIcon, TiktokIcon, ArrowDown01Icon } from "hugeicons-react";
-import mecat from "../assets/Knowledge/smirk.png";
+import mecat from "../assets/Knowledge/Smirk.png";
 import { motion } from "framer-motion";
 
 const Hero = () => {
