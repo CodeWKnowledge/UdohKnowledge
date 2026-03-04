@@ -1,0 +1,324 @@
+@import "tailwindcss";
+
+/* 1. Custom Font Definitions */
+@font-face {
+  font-family: 'MooLahLah';
+  src: url('./assets/Fonts/Caveat_Brush,Gloria_Hallelujah,Moo_Lah_Lah/Moo_Lah_Lah/MooLahLah-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CaveatBrush';
+  src: url('./assets/Fonts/Caveat_Brush,Gloria_Hallelujah,Moo_Lah_Lah/Caveat_Brush/CaveatBrush-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GloriaHallelujah';
+  src: url('./assets/Fonts/Caveat_Brush,Gloria_Hallelujah,Moo_Lah_Lah/Gloria_Hallelujah/GloriaHallelujah-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 2. Tailwind Theme Configuration */
+@theme {
+  /* Colors */
+  --color-primary: #4b0c5e;
+  /* Deeper Purple */
+  --color-secondary: #A855F7;
+  /* Mid Purple */
+  --color-accent: #11061d;
+  --color-card: #15082a;
+  --color-theme-bg: #080110;
+  --color-theme-text: #f8fafc;
+  --color-theme-border: #2e1065;
+  --color-theme-muted: #6b21a8;
+
+  /* Fonts */
+  --font-logo: "CaveatBrush", cursive;
+  --font-heading: "GloriaHallelujah", cursive;
+  --font-accent: "CaveatBrush", cursive;
+  --font-main: "Inter", sans-serif;
+
+  /* Radii */
+  --radius-button: 0.5rem;
+}
+
+/* 3. Base Styles */
+@layer base {
+  body {
+    font-family: var(--font-main);
+    scroll-behavior: smooth;
+    color: var(--color-theme-text);
+    background-color: var(--color-theme-bg);
+  }
+
+  h1,
+  .logo-font {
+    font-family: var(--font-logo);
+  }
+
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+  }
+
+  .accent-font {
+    font-family: var(--font-accent);
+  }
+}
+
+/* 4. Component Styles */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.form-input {
+  border: 1px solid var(--color-theme-border);
+  background-color: var(--color-theme-bg);
+  color: var(--color-theme-text);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+}
+
+.floating-label {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  color: var(--color-theme-muted);
+}
+
+.form-input:focus+.floating-label,
+.form-input:not(:placeholder-shown)+.floating-label {
+  transform: translateY(-1.5rem);
+  font-size: 0.75rem;
+  color: var(--color-primary);
+}
+
+/* Base reveal styles remain */
+.reveal {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: all 0.7s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  z-index: 10;
+}
+
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1rem;
+  width: 2px;
+  height: calc(100% + 12px);
+  background-color: var(--color-theme-border);
+}
+
+.timeline-item:last-child::after {
+  display: none;
+}
+
+/* 5. Utility & Animation Styles */
+.bg-theme {
+  background-color: var(--color-theme-bg);
+}
+
+.text-theme {
+  color: var(--color-theme-text);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.bg-card {
+  background-color: var(--color-card);
+}
+
+.border-theme {
+  border-color: var(--color-theme-border);
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 30s linear infinite;
+}
+
+.animate-scroll-right {
+  animation: scroll-right 30s linear infinite;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: all 0.7s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 0.7s step-end infinite;
+}
+
+.typing-cursor {
+  opacity: 1;
+  animation: blink 0.7s step-end infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+
+  100% {
+    transform: translateY(-100vh) translateX(100vw) rotate(360deg);
+  }
+}
+
+.particles-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(168, 85, 247, 0.3);
+  /* Purple tinted */
+  animation: float 15s infinite linear;
+}
+
+.hamburger {
+  width: 1.5rem;
+  height: 1.125rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background-color: var(--color-theme-text);
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger span:nth-child(1) {
+  top: 0;
+}
+
+.hamburger span:nth-child(2) {
+  top: 8px;
+}
+
+.hamburger span:nth-child(3) {
+  top: 16px;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 4rem;
+  right: -100%;
+  width: 80%;
+  max-width: 300px;
+  height: calc(100vh - 4rem);
+  background-color: var(--color-theme-bg);
+  transition: right 0.3s ease;
+  z-index: 30;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu.active {
+  right: 0;
+}
