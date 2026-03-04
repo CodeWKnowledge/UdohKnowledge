@@ -82,7 +82,7 @@ const Header = () => {
                                             className="absolute top-full mt-4 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md border border-white/10 rounded-xl p-2 flex gap-4 shadow-2xl z-[60]"
                                         >
                                             <a
-                                                href="/resume.pdf"
+                                                href="/Knowledge_Udoh_Resume.pdf"
                                                 target="_blank"
                                                 className="flex flex-col items-center gap-1 p-2 hover:bg-white/5 rounded-lg transition-colors group/choice"
                                                 onClick={() => setShowResumeChoice(false)}
@@ -92,7 +92,7 @@ const Header = () => {
                                             </a>
                                             <div className="w-[1px] bg-white/10 self-stretch my-2"></div>
                                             <a
-                                                href="/resume.pdf"
+                                                href="/Knowledge_Udoh_Resume.pdf"
                                                 download
                                                 className="flex flex-col items-center gap-1 p-2 hover:bg-white/5 rounded-lg transition-colors group/choice"
                                                 onClick={() => setShowResumeChoice(false)}
