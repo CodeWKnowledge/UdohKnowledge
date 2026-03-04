@@ -121,7 +121,7 @@
   color: var(--color-primary);
 }
 
-/* Base reveal styles remain */
+/* Base reveal styles */
 .reveal {
   opacity: 0;
   transform: translateY(2rem);
@@ -214,17 +214,6 @@
   animation: scroll-right 30s linear infinite;
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(2rem);
-  transition: all 0.7s ease-out;
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 @keyframes blink {
   50% {
     opacity: 0;
@@ -263,62 +252,4 @@
   background-color: rgba(168, 85, 247, 0.3);
   /* Purple tinted */
   animation: float 15s infinite linear;
-}
-
-.hamburger {
-  width: 1.5rem;
-  height: 1.125rem;
-  position: relative;
-  cursor: pointer;
-}
-
-.hamburger span {
-  display: block;
-  position: absolute;
-  height: 2px;
-  width: 100%;
-  background-color: var(--color-theme-text);
-  border-radius: 2px;
-  transition: all 0.3s ease-in-out;
-}
-
-.hamburger span:nth-child(1) {
-  top: 0;
-}
-
-.hamburger span:nth-child(2) {
-  top: 8px;
-}
-
-.hamburger span:nth-child(3) {
-  top: 16px;
-}
-
-.hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
-}
-
-.mobile-menu {
-  position: fixed;
-  top: 4rem;
-  right: -100%;
-  width: 80%;
-  max-width: 300px;
-  height: calc(100vh - 4rem);
-  background-color: var(--color-theme-bg);
-  transition: right 0.3s ease;
-  z-index: 30;
-  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-}
-
-.mobile-menu.active {
-  right: 0;
 }

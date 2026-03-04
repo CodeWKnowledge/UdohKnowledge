@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GithubIcon, Linkedin01Icon, NewTwitterIcon, TiktokIcon, ArrowDown01Icon } from "hugeicons-react";
-import mecat from "../assets/Knowledge/mecat.png";
+import mecat from "../assets/Knowledge/smirk.png";
 import { motion } from "framer-motion";
 
 const Hero = () => {
@@ -29,7 +29,7 @@ const Hero = () => {
     };
 
     return (
-        <section id="hero" className="min-h-screen flex items-center relative overflow-hidden pt-20">
+        <section id="hero" className="md:min-h-screen min-h-[50vh] flex items-center relative overflow-hidden pt-20">
             {/* Prismatic Aurora Burst - Multi-layered Purple Gradient Background */}
             <div
                 className="absolute inset-0 z-0 bg-black"
@@ -48,19 +48,18 @@ const Hero = () => {
             />
             <div className="container mx-auto px-6 py-16 relative z-10">
                 <div className="flex flex-col md:flex-row items-center justify-center">
-                    <div className="md:w-1/2 mb-12 md:mb-0">
+                    <div className="md:w-1/2 w-full mb-12 md:mb-0">
                         <motion.div
                             {...fadeInUp}
-                            className="flex items-center justify-center mb-6 gap-4"
+                            className="flex items-center justify-end mr-20 mb-2 gap-4"
                         >
-                            <div className="w-16 h-16 rounded-full border-2 border-primary/30 p-1 flex-shrink-0">
-                                <img src={mecat} alt="Knowledge Udoh" className="w-full h-full object-cover rounded-full" />
+                            <div className="w-30 h-30 rounded-full border-2 border-primary/30 p-1 flex-shrink-0">
+                                <img src={mecat} alt="Knowledge Udoh" loading="eager" decoding="async" className="w-full h-full object-cover rounded-full" />
                             </div>
-                            <div className="text-sm font-medium tracking-wider font-bold accent-font text-primary">
-                                <h1 className="text-xl font-bold">𝙲𝚘𝚍𝚎𝚆/𝙺𝚗𝚘𝚠𝚕𝚎𝚍𝚐𝚎 ✦</h1>
-                            </div>
+
                         </motion.div>
                         <div className="flex-col items-center justify-center">
+                            <h2 className="text-lg md:text-xl ml-20 text-theme text-start">Hey, I'M</h2>
                             <motion.h1
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.1 }}
@@ -71,7 +70,7 @@ const Hero = () => {
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
-                                className="text-lg md:text-xl mb-8 text-theme text-center"
+                                className="text-lg md:text-xl mb-2 text-theme text-center"
                             >
                                 Crafting innovative web experiences.
                             </motion.p>

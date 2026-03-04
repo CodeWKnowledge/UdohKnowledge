@@ -14,23 +14,25 @@ const About = () => {
     };
 
     return (
-        <section id="about" className="py-32 bg-theme transition-colors duration-300 relative overflow-hidden">
+        <section id="about" className="md:py-32 py-16 bg-theme transition-colors duration-300 relative overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                     {/* Image Column - Staggered Gallery */}
-                    <div className="lg:col-span-6 relative h-[500px] md:h-[600px] flex items-center justify-center">
+                    <div className="lg:col-span-6 relative h-[400px] md:h-[600px] flex items-center justify-center">
                         {/* 1. Workspace (Top Left - Reduced Size) */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9, x: -20 }}
                             whileInView={{ opacity: 1, scale: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            className="absolute top-35 md:top-25 left-5  w-1/2 aspect-video z-15 group "
+                            className="absolute top-15 md:top-25 left-5  w-1/2 aspect-video z-15 group "
                         >
                             <div className="absolute -inset-2 bg-primary/10 blur-xl rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <img
                                 src={Speaking}
                                 alt="Speaking"
+                                loading="lazy"
+                                decoding="async"
                                 className="relative rounded-2xl shadow-xl w-full h-full object-cover border border-white/5 grayscale-[30%] group-hover:grayscale-0 
                                 group-hover:border-primary group-hover:scale-[1.02] transition-all duration-700"
                             />
@@ -42,12 +44,14 @@ const About = () => {
                             whileInView={{ opacity: 1, scale: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.4 }}
-                            className="absolute top-1/4 right-5 w-2/5 aspect-[3/4] z-20 group"
+                            className="absolute top-5 right-5 w-2/5 aspect-[3/4] z-20 group"
                         >
                             <div className="absolute -inset-2 bg-secondary/10 blur-xl rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <img
                                 src={Workspace}
                                 alt="Workspace"
+                                loading="lazy"
+                                decoding="async"
                                 className="relative rounded-2xl shadow-2xl w-full h-full object-cover border border-white/10 group-hover:scale-[1.02] transition-all
                                 group-hover:border-primary duration-700"
                             />
@@ -65,6 +69,8 @@ const About = () => {
                             <img
                                 src={Pose}
                                 alt="Knowledge"
+                                loading="lazy"
+                                decoding="async"
                                 className="relative rounded-full shadow-2xl w-full h-full object-cover border-2 border-primary/20 group-hover:border-primary 
                                 group-hover:scale-[1.02] transition-all duration-700"
                             />
@@ -82,10 +88,19 @@ const About = () => {
                             <img
                                 src={Selfie}
                                 alt="Selfie"
+                                loading="lazy"
+                                decoding="async"
                                 className="relative rounded-2xl shadow-lg w-full h-full object-cover border border-white/5  group-hover:opacity-100 
                                 group-hover:border-primary group-hover:scale-[1.02] transition-all duration-700"
                             />
                         </motion.div>
+
+                        {/* Background Branding Text - Optimized for Mobile & Desktop */}
+                        <div className="absolute bottom-[10%] right-[-5%] pointer-events-none z-0 overflow-hidden select-none transform rotate-[-35deg] origin-bottom-right">
+                            <span className="text-[15vw] md:text-6xl font-bold text-white/[0.05] whitespace-nowrap tracking-tighter logo-font">
+                                CodeW/Knowledge ✦
+                            </span>
+                        </div>
 
                         {/* Decorative background shape */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-primary/5 rounded-full blur-[120px] z-0"></div>
