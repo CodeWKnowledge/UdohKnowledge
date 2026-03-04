@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Mail01Icon, CallIcon, Location01Icon, MailSend02Icon, ArrowRight01Icon, Tick01Icon, AlertCircleIcon } from "hugeicons-react";
+import { motion } from "framer-motion";
 
 const Contact = () => {
     const [status, setStatus] = useState("idle"); // idle, sending, success, error
@@ -37,6 +38,13 @@ const Contact = () => {
         }
     };
 
+    const fadeInUp = {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.8, ease: "easeOut" }
+    };
+
     return (
         <section id="contact" className="py-28 bg-theme-bg relative overflow-hidden transition-colors duration-500">
             {/* Minimal Background Elements */}
@@ -46,16 +54,22 @@ const Contact = () => {
             <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-xl mx-auto">
                     {/* Header Section */}
-                    <div className="text-center mb-16 reveal active">
+                    <motion.div
+                        {...fadeInUp}
+                        className="text-center mb-16"
+                    >
                         <span className="text-secondary accent-font text-lg mb-2 block">Ready to talk?</span>
                         <h2 className="text-5xl md:text-6xl font-bold mb-6 font-heading text-white italic">Get In Touch</h2>
                         <p className="text-base md:text-lg text-theme/50 font-light leading-relaxed">
                             Have a vision you want to bring to life? Let's collaborate and build something extraordinary together.
                         </p>
-                    </div>
+                    </motion.div>
 
                     {/* Minimalist Contact Form */}
-                    <div className="reveal active">
+                    <motion.div
+                        {...fadeInUp}
+                        transition={{ ...fadeInUp.transition, delay: 0.2 }}
+                    >
                         <form onSubmit={handleSubmit} className="space-y-5">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <input
@@ -95,17 +109,25 @@ const Contact = () => {
                                 </button>
 
                                 {status === "success" && (
-                                    <div className="flex items-center gap-2 text-green-400 font-medium py-2 reveal active">
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="flex items-center gap-2 text-green-400 font-medium py-2"
+                                    >
                                         <Tick01Icon size={20} />
                                         <span>{result}</span>
-                                    </div>
+                                    </motion.div>
                                 )}
 
                                 {status === "error" && (
-                                    <div className="flex items-center gap-2 text-red-400 font-medium py-2 reveal active">
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="flex items-center gap-2 text-red-400 font-medium py-2"
+                                    >
                                         <AlertCircleIcon size={20} />
                                         <span>{result}</span>
-                                    </div>
+                                    </motion.div>
                                 )}
                             </div>
                         </form>
@@ -127,7 +149,7 @@ const Contact = () => {
                                 </a>
                             ))}
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>
@@ -135,3 +157,4 @@ const Contact = () => {
 };
 
 export default Contact;
+

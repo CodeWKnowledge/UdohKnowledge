@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GithubIcon, ArrowRight01Icon } from "hugeicons-react";
 import { projectsData } from "../data/projectsData";
+import { motion } from "framer-motion";
 
 const Projects = ({ limit = 3 }) => {
     const [filter, setFilter] = useState("all");
@@ -15,18 +16,51 @@ const Projects = ({ limit = 3 }) => {
     const currentLimit = showAll ? filteredProjects.length : limit;
     const displayedProjects = filteredProjects.slice(0, currentLimit);
 
+    const fadeInUp = {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.8, ease: "easeOut" }
+    };
+
+    const containerVariants = {
+        initial: {},
+        whileInView: {
+            transition: {
+                staggerChildren: 0.1
+            }
+        },
+        viewport: { once: true }
+    };
+
+    const cardVariants = {
+        initial: { opacity: 0, y: 30 },
+        whileInView: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, ease: "easeOut" }
+        }
+    };
+
     return (
         <section id="projects" className="py-24 bg-theme transition-colors duration-300">
             <div className="container mx-auto px-6">
-                <div className="text-center mb-16 reveal active">
+                <motion.div
+                    {...fadeInUp}
+                    className="text-center mb-16"
+                >
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading text-white">Featured Projects</h2>
                     <div className="w-24 h-1.5 bg-primary mx-auto rounded-full"></div>
                     <p className="mt-6 max-w-2xl mx-auto text-lg text-theme/80 leading-relaxed">
                         A curated selection of my digital craftsmanship. From complex web apps to minimalist UI designs.
                     </p>
-                </div>
+                </motion.div>
 
-                <div className="flex justify-center mb-12 reveal active">
+                <motion.div
+                    {...fadeInUp}
+                    transition={{ ...fadeInUp.transition, delay: 0.2 }}
+                    className="flex justify-center mb-12"
+                >
                     <div className="max-w-full overflow-x-auto pb-4 hide-scrollbar">
                         <div className="inline-flex bg-accent/50 backdrop-blur-md p-1 rounded-xl border border-white/5">
                             {["all", "E-commerce", "Web apps", "Dashboards", "Fintech", "Sales"].map((cat) => (
@@ -43,11 +77,19 @@ const Projects = ({ limit = 3 }) => {
                             ))}
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {displayedProjects.map((project) => (
-                        <div key={project.id} className="group relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:border-primary/40 transition-all duration-500 overflow-hidden reveal active">
+                    {displayedProjects.map((project, idx) => (
+                        <motion.div
+                            key={project.id}
+                            variants={cardVariants}
+                            initial="initial"
+                            whileInView="whileInView"
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ delay: (idx % 3) * 0.1 }}
+                            className="group relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:border-primary/40 transition-all duration-500 overflow-hidden"
+                        >
                             <Link to={`/project/${project.id}`}>
                                 <div className="relative aspect-[4/3] overflow-hidden p-4 pb-0">
                                     <img
@@ -72,13 +114,6 @@ const Projects = ({ limit = 3 }) => {
                                             {project.title}
                                         </h3>
                                     </Link>
-                                    {/* <div className="flex flex-wrap gap-2 justify-end">
-                                        {project.tags.slice(0, 2).map(tag => (
-                                            <span key={tag} className="text-[10px] uppercase tracking-tighter py-1.5 px-3 bg-primary/10 text-secondary border border-primary/20 rounded-lg font-bold">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div> */}
                                 </div>
                                 <p className="mb-8 text-theme/60 text-sm line-clamp-2 leading-relaxed h-10">
                                     {project.description}
@@ -88,15 +123,17 @@ const Projects = ({ limit = 3 }) => {
                                         <span>Case Study</span>
                                         <ArrowRight01Icon size={18} className="group-hover/link:translate-x-1.5 transition-transform" />
                                     </Link>
-
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 
                 {!showAll && filteredProjects.length > limit && (
-                    <div className="mt-20 text-center reveal active">
+                    <motion.div
+                        {...fadeInUp}
+                        className="mt-20 text-center"
+                    >
                         <button
                             onClick={() => setShowAll(true)}
                             className="px-10 py-4 bg-white/5 border border-white/10 hover:border-primary/50 text-white font-bold rounded-2xl transition-all group active:scale-95 flex items-center gap-3 mx-auto"
@@ -106,7 +143,7 @@ const Projects = ({ limit = 3 }) => {
                                 <ArrowRight01Icon size={20} className="text-primary group-hover:rotate-90 transition-transform" />
                             </div>
                         </button>
-                    </div>
+                    </motion.div>
                 )}
             </div>
         </section>
@@ -114,3 +151,4 @@ const Projects = ({ limit = 3 }) => {
 };
 
 export default Projects;
+

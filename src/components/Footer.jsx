@@ -39,11 +39,7 @@ const Footer = () => {
                 </div>
 
                 <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-theme/40 text-[13px] font-medium tracking-wide">
-                    <p>© {new Date().getFullYear()} Knowledge Udoh. Built with Passion & Precision.</p>
-                    <div className="flex gap-8">
-                        <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-                        <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
-                    </div>
+                    <p className="font-logo">© {new Date().getFullYear()} Knowledge Udoh.</p>
                 </div>
             </div>
         </footer>

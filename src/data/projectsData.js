@@ -21,7 +21,7 @@ export const projectsData = [
         date: "2026",
         type: "E-commerce Website",
         client: "Blaque Fragrances",
-        liveUrl: "https://blaque.pxxl.click",
+        liveUrl: "https://blaque-scents.vercel.app/",
 
     },
     {

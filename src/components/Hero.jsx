@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { GithubIcon, Linkedin01Icon, NewTwitterIcon, TiktokIcon, ArrowDown01Icon } from "hugeicons-react";
+import mecat from "../assets/Knowledge/mecat.png";
+import { motion } from "framer-motion";
 
 const Hero = () => {
     const [displayText, setDisplayText] = useState("");
@@ -18,6 +20,13 @@ const Hero = () => {
         }, typingSpeed);
         return () => clearInterval(timer);
     }, []);
+
+    const fadeInUp = {
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.7, ease: "easeOut" }
+    };
 
     return (
         <section id="hero" className="min-h-screen flex items-center relative overflow-hidden pt-20">
@@ -40,21 +49,46 @@ const Hero = () => {
             <div className="container mx-auto px-6 py-16 relative z-10">
                 <div className="flex flex-col md:flex-row items-center justify-center">
                     <div className="md:w-1/2 mb-12 md:mb-0">
-                        <div className="text-sm font-medium mb-4 tracking-wider font-bold reveal active accent-font text-primary">
-                            <h1 className="text-xl font-bold mb-2">𝙲𝚘𝚍𝚎𝚆/𝙺𝚗𝚘𝚠𝚕𝚎𝚍𝚐𝚎 ✦</h1>
-                        </div>
+                        <motion.div
+                            {...fadeInUp}
+                            className="flex items-center justify-center mb-6 gap-4"
+                        >
+                            <div className="w-16 h-16 rounded-full border-2 border-primary/30 p-1 flex-shrink-0">
+                                <img src={mecat} alt="Knowledge Udoh" className="w-full h-full object-cover rounded-full" />
+                            </div>
+                            <div className="text-sm font-medium tracking-wider font-bold accent-font text-primary">
+                                <h1 className="text-xl font-bold">𝙲𝚘𝚍𝚎𝚆/𝙺𝚗𝚘𝚠𝚕𝚎𝚍𝚐𝚎 ✦</h1>
+                            </div>
+                        </motion.div>
                         <div className="flex-col items-center justify-center">
-                        <h1 className="text-5xl md:text-6xl font-bold mb-6 reveal active text-white text-center">
-                            Knowledge Udoh
-                        </h1>
-                        <p className="text-lg md:text-xl mb-8 text-theme reveal active text-center">
-                            Crafting innovative web experiences. 
-                            
-                        </p>
-                        <p className="text-lg md:text-xl mb-8 text-theme reveal active text-center">Building ideas to life.</p>
+                            <motion.h1
+                                {...fadeInUp}
+                                transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                                className="text-5xl md:text-6xl font-bold mb-6 text-white text-center"
+                            >
+                                Knowledge Udoh
+                            </motion.h1>
+                            <motion.p
+                                {...fadeInUp}
+                                transition={{ ...fadeInUp.transition, delay: 0.2 }}
+                                className="text-lg md:text-xl mb-8 text-theme text-center"
+                            >
+                                Crafting innovative web experiences.
+                            </motion.p>
+                            <motion.p
+                                {...fadeInUp}
+                                transition={{ ...fadeInUp.transition, delay: 0.3 }}
+                                className="text-lg md:text-xl mb-8 text-theme text-center"
+                            >
+                                Building ideas to life.
+                            </motion.p>
                         </div>
 
-                        <div className="flex flex-wrap items-center justify-center gap-4 mb-8 reveal active">
+                        <motion.div
+                            {...fadeInUp}
+                            transition={{ ...fadeInUp.transition, delay: 0.4 }}
+                            className="flex flex-wrap items-center justify-center gap-4 mb-8"
+                        >
                             <a
                                 href="#projects"
                                 className="px-6 py-3 bg-primary text-white font-medium !rounded-button hover:bg-opacity-90 transition-all shadow-lg shadow-primary/20 whitespace-nowrap"
@@ -67,8 +101,12 @@ const Hero = () => {
                             >
                                 Hire Me
                             </a>
-                        </div>
-                        <div className="flex items-center justify-center gap-4 reveal active">
+                        </motion.div>
+                        <motion.div
+                            {...fadeInUp}
+                            transition={{ ...fadeInUp.transition, delay: 0.5 }}
+                            className="flex items-center justify-center gap-4"
+                        >
                             <a href="https://github.com/CODEWKNOWLEDGE" target="_blank" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
                                 <GithubIcon size={20} />
                             </a>
@@ -81,7 +119,7 @@ const Hero = () => {
                             <a href="https://www.tiktok.com/@codewithknowledge" target="_blank" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
                                 <TiktokIcon size={20} />
                             </a>
-                        </div>
+                        </motion.div>
                     </div>
 
                 </div>

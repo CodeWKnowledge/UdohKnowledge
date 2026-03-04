@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Experience = () => {
     const experiences = [
@@ -7,25 +8,54 @@ const Experience = () => {
         { date: "2025", role: "Frontend Developer", company: "Rutherking Educational Ventures", current: false },
         { date: "2025", role: "Frontend Developer", company: "Fincorex", current: true },
         { date: "2026", role: "Founder & CEO", company: "Avera Tech Solutions", current: true },
-        { date: "2026", role: "Mobile App Developer", company: "Rinku Technology Limited", current: true }
     ];
+
+    const fadeInUp = {
+        initial: { opacity: 0, x: -20 },
+        whileInView: { opacity: 1, x: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6, ease: "easeOut" }
+    };
+
+    const containerVariants = {
+        initial: {},
+        whileInView: {
+            transition: {
+                staggerChildren: 0.1
+            }
+        },
+        viewport: { once: true }
+    };
 
     return (
         <section id="experience" className="py-24 bg-theme transition-colors duration-300">
             <div className="container mx-auto px-6">
                 <div className="max-w-3xl mx-auto">
-                    <div className="flex items-center gap-4 mb-16 reveal active">
+                    <motion.div
+                        {...fadeInUp}
+                        className="flex items-center gap-4 mb-16"
+                    >
                         <div className="w-12 h-px bg-primary/30"></div>
                         <h3 className="text-xl font-bold text-white/90 tracking-widest uppercase font-heading">Experience</h3>
-                    </div>
+                    </motion.div>
 
                     <div className="relative">
                         {/* Thin vertical line */}
                         <div className="absolute left-0 top-2 bottom-2 w-px bg-white/5"></div>
 
-                        <div className="space-y-12">
+                        <motion.div
+                            variants={containerVariants}
+                            initial="initial"
+                            whileInView="whileInView"
+                            viewport={{ once: true }}
+                            className="space-y-12"
+                        >
                             {experiences.map((item, index) => (
-                                <div key={index} className="relative pl-8 group reveal active">
+                                <motion.div
+                                    key={index}
+                                    variants={fadeInUp}
+                                    className="relative pl-8 group"
+                                >
                                     {/* Dot Node */}
                                     <div className="absolute left-[-4px] top-2 w-2 h-2 rounded-full bg-white/10 group-hover:bg-primary group-hover:scale-125 transition-all duration-300 border border-theme"></div>
 
@@ -54,9 +84,9 @@ const Experience = () => {
 
                                     {/* Subtle hover line highlight */}
                                     <div className="absolute left-[-1px] top-4 bottom-[-32px] w-px bg-primary/0 group-hover:bg-primary/40 transition-colors duration-500 hidden sm:block"></div>
-                                </div>
+                                </motion.div>
                             ))}
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </div>
@@ -65,3 +95,4 @@ const Experience = () => {
 };
 
 export default Experience;
+
