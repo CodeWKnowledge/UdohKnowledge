@@ -1,6 +1,6 @@
 import React from "react";
 import Selfie from '../assets/Knowledge/Selfie.jpeg'
-import Workspace from '../assets/Knowledge/workspace.jpeg'
+import Workspace from '../assets/Knowledge/Workspace.jpeg'
 import Speaking from '../assets/Knowledge/Speaking.jpeg'
 import Pose from '../assets/Knowledge/Pose.jpeg'
 
