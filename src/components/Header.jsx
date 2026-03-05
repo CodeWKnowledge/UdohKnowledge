@@ -38,9 +38,9 @@ const Header = () => {
 
     return (
         <header
-            className={`fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[95%] max-w-2xl px-4 md:px-6 py-3 md:py-4 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] flex items-center justify-center`}
+            className={`fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[98%] md:w-[95%] max-w-2xl px-2 md:px-6 py-2 md:py-4 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] flex items-center justify-center`}
         >
-            <nav className="flex items-center gap-2 md:gap-4 justify-center w-full relative" onMouseLeave={() => setHoveredItem(null)}>
+            <nav className="flex items-center gap-0.5 md:gap-4 justify-center w-full relative" onMouseLeave={() => setHoveredItem(null)}>
                 {navItems.map(item => (
                     <div
                         key={item.name}
@@ -62,14 +62,14 @@ const Header = () => {
                         </AnimatePresence>
 
                         {item.isResume ? (
-                            <div className="flex flex-col items-center gap-1 px-4 py-2 group cursor-pointer" onClick={() => setShowResumeChoice(!showResumeChoice)}>
+                            <div className="flex flex-col items-center gap-0.5 md:gap-1 px-2.5 md:px-4 py-1.5 md:py-2 group cursor-pointer" onClick={() => setShowResumeChoice(!showResumeChoice)}>
                                 <motion.div
                                     animate={{ scale: hoveredItem === item.name ? 1.1 : 1 }}
                                     className={`transition-all duration-300 ${showResumeChoice ? 'text-primary' : 'text-white/70 group-hover:text-white'}`}
                                 >
-                                    <item.icon size={20} />
+                                    <item.icon className="w-4 h-4 md:w-5 md:h-5" />
                                 </motion.div>
-                                <span className={`text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${showResumeChoice ? 'text-primary' : 'text-white/40 group-hover:text-white/70'}`}>
+                                <span className={`text-[8px] md:text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${showResumeChoice ? 'text-primary' : 'text-white/40 group-hover:text-white/70'}`}>
                                     {item.name}
                                 </span>
 
@@ -107,15 +107,15 @@ const Header = () => {
                         ) : (
                             <a
                                 href={item.href}
-                                className="flex flex-col items-center gap-1 px-4 py-2 group"
+                                className="flex flex-col items-center gap-0.5 md:gap-1 px-2.5 md:px-4 py-1.5 md:py-2 group"
                             >
                                 <motion.div
                                     animate={{ scale: hoveredItem === item.name ? 1.1 : 1 }}
                                     className="text-white/70 group-hover:text-white transition-all duration-300"
                                 >
-                                    <item.icon size={20} />
+                                    <item.icon className="w-4 h-4 md:w-5 md:h-5" />
                                 </motion.div>
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-white/40 group-hover:text-white/70 transition-all duration-300">
+                                <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-wider text-white/40 group-hover:text-white/70 transition-all duration-300">
                                     {item.name}
                                 </span>
                             </a>
