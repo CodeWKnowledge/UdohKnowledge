@@ -104,9 +104,9 @@ const Hero = () => {
                             </a>
                             <a
                                 href="#contact"
-                                className="px-6 py-3 border border-theme font-medium !rounded-button hover:border-primary hover:text-primary transition-all whitespace-nowrap"
+                                className="px-6 py-3 border border-theme font-medium !rounded-full hover:border-primary hover:text-primary transition-all whitespace-nowrap"
                             >
-                                Hire Me
+                                Start a Project!
                             </a>
                         </motion.div>
                         <motion.div
