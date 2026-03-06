@@ -95,6 +95,8 @@ const Projects = ({ limit = 3 }) => {
                                     <img
                                         src={project.image}
                                         alt={project.title}
+                                        loading="lazy"
+                                        decoding="async"
                                         className="w-full h-full object-cover object-top rounded-xl transition-transform duration-700 ease-out group-hover:scale-105"
                                     />
                                     <div className="absolute inset-4 rounded-xl bg-black/60 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center p-8 text-center">

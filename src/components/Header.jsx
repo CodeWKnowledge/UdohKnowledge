@@ -62,7 +62,11 @@ const Header = () => {
                         </AnimatePresence>
 
                         {item.isResume ? (
-                            <div className="flex flex-col items-center gap-0.5 md:gap-1 px-2.5 md:px-4 py-1.5 md:py-2 group cursor-pointer" onClick={() => setShowResumeChoice(!showResumeChoice)}>
+                            <div
+                                className="flex flex-col items-center gap-0.5 md:gap-1 px-2.5 md:px-4 py-1.5 md:py-2 group cursor-pointer"
+                                onClick={() => setShowResumeChoice(!showResumeChoice)}
+                                aria-label="Resume Options"
+                            >
                                 <motion.div
                                     animate={{ scale: hoveredItem === item.name ? 1.1 : 1 }}
                                     className={`transition-all duration-300 ${showResumeChoice ? 'text-primary' : 'text-white/70 group-hover:text-white'}`}
@@ -79,7 +83,7 @@ const Header = () => {
                                             initial={{ opacity: 0, y: 10, scale: 0.9 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                                            className="absolute top-full mt-4 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md border border-white/10 rounded-xl p-2 flex gap-4 shadow-2xl z-[60]"
+                                            className="absolute top-full mt-4 right-0 md:right-auto md:left-1/2 md:-translate-x-1/2 bg-black/80 backdrop-blur-md border border-white/10 rounded-xl p-2 flex gap-4 shadow-2xl z-[60]"
                                         >
                                             <a
                                                 href="/Knowledge_Udoh_Resume.pdf"
@@ -108,6 +112,7 @@ const Header = () => {
                             <a
                                 href={item.href}
                                 className="flex flex-col items-center gap-0.5 md:gap-1 px-2.5 md:px-4 py-1.5 md:py-2 group"
+                                aria-label={item.name}
                             >
                                 <motion.div
                                     animate={{ scale: hoveredItem === item.name ? 1.1 : 1 }}

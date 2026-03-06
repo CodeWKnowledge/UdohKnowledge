@@ -63,23 +63,31 @@ const Hero = () => {
                             <motion.h1
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.1 }}
-                                className="text-5xl md:text-6xl font-bold mb-6 text-white text-center"
+                                className="text-5xl md:text-6xl font-bold mb-1 text-white text-center"
                             >
                                 Knowledge Udoh
                             </motion.h1>
+                            <motion.h2
+                                {...fadeInUp}
+                                transition={{ ...fadeInUp.transition, delay: 0.1 }}
+                                className="text-2xl font-logo   font-bold mb-3 text-theme-muted text-right"
+                            >
+                                Frontend Engineer
+                            </motion.h2>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
                                 className="text-lg md:text-xl mb-2 text-theme text-center"
                             >
-                                Crafting innovative web experiences.
+                                Turning ideas into real digital products.
+
                             </motion.p>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.3 }}
                                 className="text-lg md:text-xl mb-8 text-theme text-center"
                             >
-                                Building ideas to life.
+                                Crafting fast, scalable, and beautiful web applications.
                             </motion.p>
                         </div>
 

@@ -6,6 +6,7 @@
   src: url('./assets/Fonts/Caveat_Brush,Gloria_Hallelujah,Moo_Lah_Lah/Moo_Lah_Lah/MooLahLah-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -13,6 +14,7 @@
   src: url('./assets/Fonts/Caveat_Brush,Gloria_Hallelujah,Moo_Lah_Lah/Caveat_Brush/CaveatBrush-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -20,6 +22,7 @@
   src: url('./assets/Fonts/Caveat_Brush,Gloria_Hallelujah,Moo_Lah_Lah/Gloria_Hallelujah/GloriaHallelujah-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 /* 2. Tailwind Theme Configuration */
@@ -53,6 +56,31 @@
     scroll-behavior: smooth;
     color: var(--color-theme-text);
     background-color: var(--color-theme-bg);
+  }
+
+  /* Custom Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-theme-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--color-primary), var(--color-theme-muted));
+    border-radius: 10px;
+    border: 2px solid var(--color-theme-bg);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-secondary);
+  }
+
+  /* Firefox Support */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--color-theme-bg);
   }
 
   h1,

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const Skills = () => {
     const skillGroups = [
-        ["HTML", "CSS", "JavaScript", "React.js", "Tailwind CSS", "Responsive Design"],
+        ["React.js","Tailwind CSS", "Next.js", "TypeScript", "HTML", "CSS", "JavaScript",   "Responsive Design"],
         ["Framer Motion", "Shadcn UI", "Bootstrap", "Git & GitHub", "Vite", "Figma"],
         ["Vercel", "Netlify", "Pxxl", "VS Code", "UI/UX Design", "Performance Optimization", "API Integration", "State Management", "Testing"]
     ];
@@ -45,6 +45,7 @@ const Skills = () => {
                             {/* Duplicate set 4 times to ensure no gaps on any screen size */}
                             {[...row, ...row, ...row, ...row].map((skill, sIdx) => (
                                 <div
+                                
                                     key={sIdx}
                                     className="px-8 py-4 bg-card/40 text-theme border border-theme-border/30 rounded-2xl text-lg font-medium hover:border-primary/50 hover:text-primary transition-all duration-300 cursor-default flex-shrink-0"
                                 >

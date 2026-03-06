@@ -7,12 +7,10 @@ const Footer = () => {
             <div className="container mx-auto px-6">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-12">
                     <div className="text-center md:text-left">
-                        <a href="#hero" className="text-3xl font-bold text-primary font-heading tracking-tight hover:text-secondary transition-colors">
-                            Knowledge.
+                        <a href="#hero" className="text-3xl font-bold text-primary font-logo tracking-tight hover:text-secondary transition-colors">
+                            CodeW/Knowledge✦
                         </a>
-                        <p className="mt-4 text-theme/60 max-w-xs leading-relaxed">
-                            Crafting high-performance digital experiences with a focus on aesthetics and user-centric design.
-                        </p>
+
                     </div>
 
                     <div className="flex flex-col items-center md:items-end gap-6">
