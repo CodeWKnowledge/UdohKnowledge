@@ -12,6 +12,10 @@ const Contact = () => {
 
         const formData = new FormData(e.target);
 
+        // Web3Forms Customization: Dynamic Subject
+        const name = formData.get("name");
+        formData.append("subject", `New Submission from ${name} - Portfolio`);
+
         formData.append("access_key", "321a91fe-e5a9-4f47-83b8-cf02761b698f");
 
         try {
@@ -71,11 +75,16 @@ const Contact = () => {
                         transition={{ ...fadeInUp.transition, delay: 0.2 }}
                     >
                         <form onSubmit={handleSubmit} className="space-y-5">
+                            {/* Web3Forms Customizations */}
+                            <input type="hidden" name="from_name" value="Knowledge Udoh's Portfolio" />
+                            <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} />
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <input
                                     type="text"
                                     name="name"
                                     placeholder="Name"
+                                    autoComplete="name"
                                     className="w-full bg-white/[0.02] border border-white/5 p-5 rounded-2xl outline-none focus:border-primary/40 focus:bg-white/[0.05] transition-all text-white placeholder:text-theme/20 shadow-inner"
                                     required
                                 />
@@ -83,6 +92,7 @@ const Contact = () => {
                                     type="email"
                                     name="email"
                                     placeholder="Email"
+                                    autoComplete="email"
                                     className="w-full bg-white/[0.02] border border-white/5 p-5 rounded-2xl outline-none focus:border-primary/40 focus:bg-white/[0.05] transition-all text-white placeholder:text-theme/20 shadow-inner"
                                     required
                                 />
@@ -135,9 +145,9 @@ const Contact = () => {
                         {/* Ultra-Minimalist Contact Footer */}
                         <div className="mt-20 pt-10 border-t border-white/5 flex flex-wrap justify-center gap-x-10 gap-y-4">
                             {[
-                                { icon: <Mail01Icon size={16} />, content: "udohknowledge5@gmail.com", link: "mailto:udohknowledge5@gmail.com" },
-                                { icon: <CallIcon size={16} />, content: "+234 703 754 1754", link: "tel:+2347037541754" },
-                                { icon: <Location01Icon size={16} />, content: "Port Harcourt, Nigeria", link: "#" }
+                                { icon: <Mail01Icon size={16} className="text-theme-muted"/>, content: "udohknowledge5@gmail.com", link: "mailto:udohknowledge5@gmail.com" },
+                                { icon: <CallIcon size={16} className="text-theme-muted"/>, content: "+234 703 754 1754", link: "tel:+2347037541754" },
+                                { icon: <Location01Icon size={16} className="text-theme-muted"/>, content: "Port Harcourt, Nigeria", link: "#" }
                             ].map((item, idx) => (
                                 <a
                                     href={item.link}
