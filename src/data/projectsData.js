@@ -123,18 +123,5 @@ export const projectsData = [
         client: "Klassic Atelier",
         liveUrl: "https://clothing-store.pxxl.click",
     },
-    {
-        id: 9,
-        title: "Fincorex",
-        category: ["Fintech", "Dashboards", "Web apps"],
-        image: Fincorex,
-        tags: ["Fintech", "Dashboard", "Analytics"],
-        description: "Fintech dashboard for managing complex datasets and sales pipelines.",
-        details: "Fincorex is a comprehensive analytics dashboard that allows businesses to track market shifts and monitor competitor activity. It provides real-time data visualization and actionable insights to help marketing teams optimize their lead generation strategies and conversion funnels.",
-        technologies: ["React", "Vite", "Bootstrap", "JavaScript"],
-        date: "2025",
-        type: "Fintech Dashboard",
-        client: "Fincorex",
-        liveUrl: "https://fincorex.vercel.app/",
-    },
+
 ];
