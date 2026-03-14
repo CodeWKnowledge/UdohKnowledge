@@ -61,12 +61,12 @@ const Experience = () => {
 
                                     <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
                                         <div className="flex flex-col">
-                                            <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors duration-300">
+                                            <h4 className="text-xl font-bold text-white group-hover:text-secondary transition-colors duration-300">
                                                 {item.role}
                                             </h4>
                                             <div className="flex items-center gap-2 mt-1">
                                                 <span className="text-theme/40 text-sm font-medium">at</span>
-                                                <span className="text-primary/80 font-medium accent-font italic text-lg decoration-primary/20 hover:decoration-primary transition-all">
+                                                <span className="text-secondary font-medium accent-font italic text-lg decoration-secondary/30 hover:decoration-secondary transition-all">
                                                     {item.company}
                                                 </span>
                                             </div>
