@@ -100,7 +100,7 @@ const ProjectDetails = () => {
                     className="grid grid-cols-1 lg:grid-cols-12 gap-16"
                 >
                     {/* Left: Project Narrative */}
-                    <div className="lg:col-span-7 space-y-20">
+                    <div className="order-2 lg:order-1 lg:col-span-7 space-y-20">
                         <section className="space-y-8">
                             <h2 className="text-sm uppercase tracking-[0.3em] text-primary font-bold">Project Overview</h2>
                             <div className="space-y-6 text-xl text-theme/70 leading-relaxed font-light">
@@ -121,7 +121,7 @@ const ProjectDetails = () => {
                     </div>
 
                     {/* Right: Project Meta */}
-                    <div className="lg:col-span-5 space-y-10">
+                    <div className="order-1 lg:order-2 lg:col-span-5 space-y-10">
                         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-10 space-y-10">
                             <div className="grid grid-cols-2 gap-y-10">
                                 <div className="space-y-2">
@@ -156,28 +156,28 @@ const ProjectDetails = () => {
                     {...revealOnScroll}
                     className="mt-40 pt-20 border-t border-white/5"
                 >
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
                         {prevProject ? (
-                            <Link to={`/project/${prevProject.id}`} className="group flex flex-col items-start gap-4 max-w-xs">
+                            <Link to={`/project/${prevProject.id}`} className="group flex flex-col items-start gap-3 p-8 rounded-[2rem] bg-white/5 border border-white/10 hover:border-primary/30 hover:bg-white/10 transition-all">
                                 <span className="text-xs uppercase tracking-[0.3em] text-theme/40 font-bold flex items-center gap-2 group-hover:text-primary transition-colors">
-                                    <ArrowLeft01Icon size={14} /> Previous
+                                    <ArrowLeft01Icon size={16} /> Previous Project
                                 </span>
-                                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors font-heading leading-tight italic">
+                                <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-primary transition-colors font-heading leading-tight italic">
                                     {prevProject.title}
                                 </h3>
                             </Link>
-                        ) : <div />}
+                        ) : <div className="hidden md:block" />}
 
                         {nextProject ? (
-                            <Link to={`/project/${nextProject.id}`} className="group flex flex-col items-end gap-4 text-right max-w-xs">
+                            <Link to={`/project/${nextProject.id}`} className="group flex flex-col items-end gap-3 p-8 rounded-[2rem] bg-white/5 border border-white/10 hover:border-primary/30 hover:bg-white/10 transition-all text-right">
                                 <span className="text-xs uppercase tracking-[0.3em] text-theme/40 font-bold flex items-center gap-2 group-hover:text-primary transition-colors">
-                                    Next <ArrowRight01Icon size={14} />
+                                    Next Project <ArrowRight01Icon size={16} />
                                 </span>
-                                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors font-heading leading-tight italic">
+                                <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-primary transition-colors font-heading leading-tight italic">
                                     {nextProject.title}
                                 </h3>
                             </Link>
-                        ) : <div />}
+                        ) : <div className="hidden md:block" />}
                     </div>
                 </motion.div>
             </div>

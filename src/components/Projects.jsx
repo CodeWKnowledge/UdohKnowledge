@@ -63,7 +63,7 @@ const Projects = ({ limit = 3 }) => {
                 >
                     <div className="max-w-full overflow-x-auto pb-4 hide-scrollbar">
                         <div className="inline-flex bg-accent/50 backdrop-blur-md p-1 rounded-xl border border-white/5">
-                            {["all", "E-commerce", "Web apps", "Dashboards", "Fintech", "Sales"].map((cat) => (
+                            {["all", "E-commerce", "Web apps", "Dashboards", "Sales"].map((cat) => (
                                 <button
                                     key={cat}
                                     onClick={() => setFilter(cat)}
