@@ -59,7 +59,7 @@ const Hero = () => {
 
                         </motion.div>
                         <div className="flex-col items-center justify-center">
-                            <h2 className="text-lg md:text-xl ml-20 text-theme text-start">Hey, I'M</h2>
+                            <h2 className="text-lg md:text-xl ml-20 text-theme text-start ml-20">Hey, I'M</h2>
                             <motion.h1
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.1 }}
@@ -70,7 +70,7 @@ const Hero = () => {
                             <motion.h2
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.1 }}
-                                className="text-2xl font-logo   font-bold mb-3 text-theme-muted text-right"
+                                className="text-2xl font-logo   font-bold mb-3 text-theme-muted text-right mr-20"
                             >
                                 Frontend Engineer
                             </motion.h2>
