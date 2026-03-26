@@ -65,7 +65,7 @@ const Hero = () => {
                                 transition={{ ...fadeInUp.transition, delay: 0.1 }}
                                 className="text-5xl md:text-6xl font-bold mb-1 text-white text-center"
                             >
-                                Knowledge Udoh
+                                Knowledge 
                             </motion.h1>
                             <motion.h2
                                 {...fadeInUp}
