@@ -1,11 +1,20 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useSupabase } from "../context/SupabaseContext";
 
 const Skills = () => {
+    const { content } = useSupabase();
+    
+    // Parse skills from content or fallback to defaults
+    const rawSkills = content?.skills_list 
+        ? content.skills_list.split(',').map(s => s.trim())
+        : ["React.js","Tailwind CSS", "Next.js", "TypeScript", "HTML", "CSS", "JavaScript", "Responsive Design", "Framer Motion", "Shadcn UI", "Bootstrap", "Git & GitHub", "Vite", "Figma", "Vercel", "Netlify", "Pxxl", "VS Code", "UI/UX Design", "Performance Optimization", "API Integration", "State Management", "Testing"];
+
+    // Distribute skills into 3 rows
     const skillGroups = [
-        ["React.js","Tailwind CSS", "Next.js", "TypeScript", "HTML", "CSS", "JavaScript",   "Responsive Design"],
-        ["Framer Motion", "Shadcn UI", "Bootstrap", "Git & GitHub", "Vite", "Figma"],
-        ["Vercel", "Netlify", "Pxxl", "VS Code", "UI/UX Design", "Performance Optimization", "API Integration", "State Management", "Testing"]
+        rawSkills.slice(0, Math.ceil(rawSkills.length / 3)),
+        rawSkills.slice(Math.ceil(rawSkills.length / 3), Math.ceil(rawSkills.length / 3) * 2),
+        rawSkills.slice(Math.ceil(rawSkills.length / 3) * 2)
     ];
 
     const fadeInUp = {

@@ -4,8 +4,10 @@ import Workspace from '../assets/Knowledge/Workspace.jpeg'
 import Speaking from '../assets/Knowledge/Speaking.jpeg'
 import Pose from '../assets/Knowledge/Pose.jpeg'
 import { motion } from "framer-motion";
+import { useSupabase } from "../context/SupabaseContext";
 
 const About = () => {
+    const { content } = useSupabase();
     const [activeImage, setActiveImage] = useState(null);
     const galleryRef = useRef(null);
 
@@ -155,21 +157,21 @@ const About = () => {
                                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
                                 className="text-xl text-white/90 leading-relaxed font-heading"
                             >
-                                I'm Knowledge Udoh, a Developer passionate about crafting digital experiences that resonate.
+                                {content?.about_text1 || "I'm Knowledge Udoh, a Developer passionate about crafting digital experiences that resonate."}
                             </motion.p>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.3 }}
                                 className="text-lg text-theme/40 leading-relaxed font-medium"
                             >
-                                My approach combines technical precision with an obsession for visual details. I don't just build interfaces; I design workflows that feel natural and architecture that scales.
+                                {content?.about_text2 || "My approach combines technical precision with an obsession for visual details. I don't just build interfaces; I design workflows that feel natural and architecture that scales."}
                             </motion.p>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.4 }}
                                 className="text-lg text-theme/40 leading-relaxed"
                             >
-                                From leading tech solutions to developing seamless mobile experiences, my focus is always on the intersection of human-centric design and powerful performance.
+                                {content?.about_text3 || "From leading tech solutions to developing seamless mobile experiences, my focus is always on the intersection of human-centric design and powerful performance."}
                             </motion.p>
 
                             <motion.p
@@ -177,7 +179,7 @@ const About = () => {
                                 transition={{ ...fadeInUp.transition, delay: 0.4 }}
                                 className="text-lg text-theme/40 leading-relaxed"
                             >
-                                I'm also an actively growing tech content creator, passionate about public speaking and sharing my knowledge with the world.
+                                {content?.about_text4 || "I'm also an actively growing tech content creator, passionate about public speaking and sharing my knowledge with the world."}
                             </motion.p>
                         </div>
 

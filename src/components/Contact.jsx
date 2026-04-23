@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Mail01Icon, CallIcon, Location01Icon, MailSend02Icon, ArrowRight01Icon, Tick01Icon, AlertCircleIcon } from "hugeicons-react";
 import { motion } from "framer-motion";
 
+import { useSupabase } from "../context/SupabaseContext";
+
 const Contact = () => {
+    const { settings } = useSupabase();
     const [status, setStatus] = useState("idle"); // idle, sending, success, error
     const [result, setResult] = useState("");
 
@@ -145,9 +148,9 @@ const Contact = () => {
                         {/* Ultra-Minimalist Contact Footer */}
                         <div className="mt-20 pt-10 border-t border-white/5 flex flex-wrap justify-center gap-x-10 gap-y-4">
                             {[
-                                { icon: <Mail01Icon size={16} className="text-theme-muted"/>, content: "udohknowledge5@gmail.com", link: "mailto:udohknowledge5@gmail.com" },
-                                { icon: <CallIcon size={16} className="text-theme-muted"/>, content: "+234 703 754 1754", link: "tel:+2347037541754" },
-                                { icon: <Location01Icon size={16} className="text-theme-muted"/>, content: "Port Harcourt, Nigeria", link: "#" }
+                                { icon: <Mail01Icon size={16} className="text-theme-muted"/>, content: settings?.social_links?.contact_email || "udohknowledge5@gmail.com", link: `mailto:${settings?.social_links?.contact_email || "udohknowledge5@gmail.com"}` },
+                                { icon: <CallIcon size={16} className="text-theme-muted"/>, content: settings?.social_links?.contact_phone || "+234 703 754 1754", link: `tel:${settings?.social_links?.contact_phone?.replace(/\s/g, '') || "+2347037541754"}` },
+                                { icon: <Location01Icon size={16} className="text-theme-muted"/>, content: settings?.social_links?.contact_address || "Port Harcourt, Nigeria", link: "#" }
                             ].map((item, idx) => (
                                 <a
                                     href={item.link}

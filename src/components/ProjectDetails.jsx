@@ -1,20 +1,24 @@
 import React, { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { GithubIcon, ArrowRight01Icon, ArrowLeft01Icon, Share01Icon } from "hugeicons-react";
-import { projectsData } from "../data/projectsData";
+import { projectsData as staticProjects } from "../data/projectsData";
 import { motion } from "framer-motion";
+import { useSupabase } from "../context/SupabaseContext";
 
 const ProjectDetails = () => {
     const { id } = useParams();
+    const { projects } = useSupabase();
+
+    const dataToUse = projects && projects.length > 0 ? projects : staticProjects;
 
     const currentIndex = useMemo(() => {
-        return projectsData.findIndex(p => p.id === parseInt(id));
-    }, [id]);
+        return dataToUse.findIndex(p => p.id.toString() === id.toString());
+    }, [id, dataToUse]);
 
-    const project = projectsData[currentIndex];
+    const project = dataToUse[currentIndex];
 
-    const prevProject = currentIndex > 0 ? projectsData[currentIndex - 1] : null;
-    const nextProject = currentIndex < projectsData.length - 1 ? projectsData[currentIndex + 1] : null;
+    const prevProject = currentIndex > 0 ? dataToUse[currentIndex - 1] : null;
+    const nextProject = currentIndex < dataToUse.length - 1 ? dataToUse[currentIndex + 1] : null;
 
     const fadeInUp = {
         initial: { opacity: 0, y: 30 },
@@ -56,8 +60,8 @@ const ProjectDetails = () => {
                         <span>Back to Home</span>
                     </Link>
                     <div className="flex gap-4">
-                        {project.githubUrl && (
-                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:border-primary/50 hover:text-primary transition-all">
+                        {(project.githubUrl || project.github_url) && (
+                            <a href={project.githubUrl || project.github_url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:border-primary/50 hover:text-primary transition-all">
                                 <GithubIcon size={20} />
                             </a>
                         )}
@@ -77,7 +81,7 @@ const ProjectDetails = () => {
                         <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-[2rem] blur-xl opacity-20"></div>
                         <div className="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-xl">
                             <img
-                                src={project.image}
+                                src={project.image_url || project.image}
                                 alt={project.title}
                                 className="w-full object-cover aspect-video"
                             />
@@ -104,42 +108,50 @@ const ProjectDetails = () => {
                         <section className="space-y-8">
                             <h2 className="text-sm uppercase tracking-[0.3em] text-primary font-bold">Project Overview</h2>
                             <div className="space-y-6 text-xl text-theme/70 leading-relaxed font-light">
-                                <p>{project.details}</p>
+                                <p>{project.details || project.description}</p>
                             </div>
                         </section>
 
-                        <section className="space-y-8">
-                            <h2 className="text-sm uppercase tracking-[0.3em] text-primary font-bold">Technologies Used</h2>
-                            <div className="flex flex-wrap gap-3">
-                                {project.technologies.map(tech => (
-                                    <span key={tech} className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white font-medium hover:border-primary/30 transition-colors">
-                                        {tech}
-                                    </span>
-                                ))}
-                            </div>
-                        </section>
+                        {project.technologies && project.technologies.length > 0 && (
+                            <section className="space-y-8">
+                                <h2 className="text-sm uppercase tracking-[0.3em] text-primary font-bold">Technologies Used</h2>
+                                <div className="flex flex-wrap gap-3">
+                                    {project.technologies.map(tech => (
+                                        <span key={tech} className="px-5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white font-medium hover:border-primary/30 transition-colors">
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
                     </div>
 
                     {/* Right: Project Meta */}
                     <div className="order-1 lg:order-2 lg:col-span-5 space-y-10">
                         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-10 space-y-10">
                             <div className="grid grid-cols-2 gap-y-10">
-                                <div className="space-y-2">
-                                    <h4 className="text-[10px] uppercase tracking-[0.3em] text-theme/40 font-bold">Date</h4>
-                                    <p className="text-white font-medium text-lg">{project.date}</p>
-                                </div>
-                                <div className="space-y-2">
-                                    <h4 className="text-[10px] uppercase tracking-[0.3em] text-theme/40 font-bold">Type</h4>
-                                    <p className="text-white font-medium text-lg">{project.type}</p>
-                                </div>
-                                <div className="space-y-2 col-span-2">
-                                    <h4 className="text-[10px] uppercase tracking-[0.3em] text-theme/40 font-bold">Client</h4>
-                                    <p className="text-white font-medium text-lg">{project.client}</p>
-                                </div>
+                                {project.date && (
+                                    <div className="space-y-2">
+                                        <h4 className="text-[10px] uppercase tracking-[0.3em] text-theme/40 font-bold">Date</h4>
+                                        <p className="text-white font-medium text-lg">{project.date}</p>
+                                    </div>
+                                )}
+                                {project.type && (
+                                    <div className="space-y-2">
+                                        <h4 className="text-[10px] uppercase tracking-[0.3em] text-theme/40 font-bold">Type</h4>
+                                        <p className="text-white font-medium text-lg">{project.type}</p>
+                                    </div>
+                                )}
+                                {project.client && (
+                                    <div className="space-y-2 col-span-2">
+                                        <h4 className="text-[10px] uppercase tracking-[0.3em] text-theme/40 font-bold">Client</h4>
+                                        <p className="text-white font-medium text-lg">{project.client}</p>
+                                    </div>
+                                )}
                             </div>
 
                             <a
-                                href={project.liveUrl}
+                                href={project.live_url || project.liveUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full py-5 bg-primary text-white rounded-2xl font-bold text-sm tracking-[0.2em] uppercase hover:bg-primary/80 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-4 group"

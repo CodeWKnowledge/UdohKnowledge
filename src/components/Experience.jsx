@@ -1,14 +1,31 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useSupabase } from "../context/SupabaseContext";
 
 const Experience = () => {
-    const experiences = [
+    const { content } = useSupabase();
+    
+    let experiences = [
         { date: "2024", role: "Freelance Developer", company: "Self-Employed", current: true },
         { date: "2024", role: "Co Founder & Frontend Developer", company: "FlowSpy", current: true },
         { date: "2025", role: "Frontend Developer", company: "Rutherking Educational Ventures", current: false },
         { date: "2025", role: "Frontend Developer", company: "Fincorex", current: true },
         { date: "2026", role: "Founder & CEO", company: "Avera Tech Solutions", current: true },
     ];
+
+    if (content?.experience_list) {
+        try {
+            const parsed = typeof content.experience_list === 'string' 
+                ? JSON.parse(content.experience_list) 
+                : content.experience_list;
+            
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                experiences = parsed;
+            }
+        } catch (e) {
+            console.error("Failed to parse experience_list, using defaults:", e);
+        }
+    }
 
     const fadeInUp = {
         initial: { opacity: 0, x: -20 },
@@ -56,34 +73,36 @@ const Experience = () => {
                                     variants={fadeInUp}
                                     className="relative pl-8 group"
                                 >
-                                    {/* Dot Node */}
-                                    <div className="absolute left-[-4px] top-2 w-2 h-2 rounded-full bg-white/10 group-hover:bg-primary group-hover:scale-125 transition-all duration-300 border border-theme"></div>
+                                    <article>
+                                        {/* Dot Node */}
+                                        <div className="absolute left-[-4px] top-2 w-2 h-2 rounded-full bg-white/10 group-hover:bg-primary group-hover:scale-125 transition-all duration-300 border border-theme"></div>
 
-                                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-                                        <div className="flex flex-col">
-                                            <h4 className="text-xl font-bold text-white group-hover:text-secondary transition-colors duration-300">
-                                                {item.role}
-                                            </h4>
-                                            <div className="flex items-center gap-2 mt-1">
-                                                <span className="text-theme/40 text-sm font-medium">at</span>
-                                                <span className="text-secondary font-medium accent-font italic text-lg decoration-secondary/30 hover:decoration-secondary transition-all">
-                                                    {item.company}
-                                                </span>
+                                        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                                            <div className="flex flex-col">
+                                                <h4 className="text-xl font-bold text-white group-hover:text-secondary transition-colors duration-300">
+                                                    {item.role}
+                                                </h4>
+                                                <div className="flex items-center gap-2 mt-1">
+                                                    <span className="text-theme/40 text-sm font-medium">at</span>
+                                                    <span className="text-secondary font-medium accent-font italic text-lg decoration-secondary/30 hover:decoration-secondary transition-all">
+                                                        {item.company}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center gap-3 shrink-0 mt-2 sm:mt-0">
+                                                <time dateTime={item.date} className="text-white/20 text-sm font-bold tracking-tighter uppercase">
+                                                    {item.date}
+                                                </time>
+                                                {item.current && (
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(126,34,206,0.6)]"></div>
+                                                )}
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-3 shrink-0 mt-2 sm:mt-0">
-                                            <span className="text-white/20 text-sm font-bold tracking-tighter uppercase">
-                                                {item.date}
-                                            </span>
-                                            {item.current && (
-                                                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(126,34,206,0.6)]"></div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* Subtle hover line highlight */}
-                                    <div className="absolute left-[-1px] top-4 bottom-[-32px] w-px bg-primary/0 group-hover:bg-primary/40 transition-colors duration-500 hidden sm:block"></div>
+                                        {/* Subtle hover line highlight */}
+                                        <div className="absolute left-[-1px] top-4 bottom-[-32px] w-px bg-primary/0 group-hover:bg-primary/40 transition-colors duration-500 hidden sm:block"></div>
+                                    </article>
                                 </motion.div>
                             ))}
                         </motion.div>

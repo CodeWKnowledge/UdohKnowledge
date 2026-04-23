@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { GithubIcon, Linkedin01Icon, NewTwitterIcon, TiktokIcon, ArrowDown01Icon } from "hugeicons-react";
 import mecat from "../assets/Knowledge/Smirk.png";
 import { motion } from "framer-motion";
+import { useSupabase } from "../context/SupabaseContext";
 
 const Hero = () => {
+    const { content, settings } = useSupabase();
     const [displayText, setDisplayText] = useState("");
-    const fullText = "Frontend Developer & UI Designer";
+    const fullText = content?.hero_title || "Frontend Developer & UI Designer";
     const typingSpeed = 100;
 
     useEffect(() => {
@@ -79,15 +81,14 @@ const Hero = () => {
                                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
                                 className="text-lg md:text-xl mb-2 text-theme text-center"
                             >
-                                Turning ideas into real digital products.
-
+                                {content?.hero_description1 || "Building high-performance websites for businesses & brands."}
                             </motion.p>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.3 }}
                                 className="text-lg md:text-xl mb-8 text-theme text-center"
                             >
-                                Crafting fast, scalable, and beautiful web applications.
+                                {content?.hero_description2 || "Crafting fast, scalable, and beautiful digital solutions that drive growth."}
                             </motion.p>
                         </div>
 
@@ -114,16 +115,16 @@ const Hero = () => {
                             transition={{ ...fadeInUp.transition, delay: 0.5 }}
                             className="flex items-center justify-center gap-4"
                         >
-                            <a href="https://github.com/CODEWKNOWLEDGE" target="_blank" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+                            <a href={settings?.social_links?.github || "https://github.com/CODEWKNOWLEDGE"} target="_blank" aria-label="GitHub Profile" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
                                 <GithubIcon size={20} />
                             </a>
-                            <a href="https://www.linkedin.com/in/knowledge54/" target="_blank" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+                            <a href={settings?.social_links?.linkedin || "https://www.linkedin.com/in/knowledge54/"} target="_blank" aria-label="LinkedIn Profile" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
                                 <Linkedin01Icon size={20} />
                             </a>
-                            <a href="https://x.com/CodeWKnowledge" target="_blank" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+                            <a href={settings?.social_links?.twitter || "https://x.com/CodeWKnowledge"} target="_blank" aria-label="Twitter X Profile" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
                                 <NewTwitterIcon size={20} />
                             </a>
-                            <a href="https://www.tiktok.com/@codewithknowledge" target="_blank" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+                            <a href={settings?.social_links?.tiktok || "https://www.tiktok.com/@codewithknowledge"} target="_blank" aria-label="TikTok Profile" className="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
                                 <TiktokIcon size={20} />
                             </a>
                         </motion.div>

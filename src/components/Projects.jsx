@@ -1,16 +1,29 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GithubIcon, ArrowRight01Icon } from "hugeicons-react";
-import { projectsData } from "../data/projectsData";
+import { projectsData as staticProjects } from "../data/projectsData";
 import { motion } from "framer-motion";
+import { useSupabase } from "../context/SupabaseContext";
 
 const Projects = ({ limit = 3 }) => {
-    const [filter, setFilter] = useState("all");
+    const { projects } = useSupabase();
     const [showAll, setShowAll] = useState(false);
+    const [activeCategory, setActiveCategory] = useState("all");
 
-    const filteredProjects = filter === "all"
-        ? projectsData
-        : projectsData.filter(project => project.category.includes(filter));
+    // Fallback if Supabase has no projects
+    const dataToUse = projects && projects.length > 0 ? projects : staticProjects;
+
+    const categories = ["all", "E-commerce", "Web apps", "Dashboards", "Sales"];
+
+    // Filter projects based on active category
+    const filteredProjects = activeCategory === "all" 
+        ? dataToUse 
+        : dataToUse.filter(p => {
+            if (!p.category) return false;
+            return Array.isArray(p.category) 
+                ? p.category.includes(activeCategory) 
+                : p.category === activeCategory;
+        });
 
     // Determine which projects to display based on the 'limit' and 'showAll' state
     const currentLimit = showAll ? filteredProjects.length : limit;
@@ -66,13 +79,14 @@ const Projects = ({ limit = 3 }) => {
                             {["all", "E-commerce", "Web apps", "Dashboards", "Sales"].map((cat) => (
                                 <button
                                     key={cat}
-                                    onClick={() => setFilter(cat)}
-                                    className={`px-5 py-2 rounded-lg transition-all duration-300 font-semibold text-xs uppercase tracking-widest whitespace-nowrap ${filter === cat
-                                        ? "bg-primary text-white shadow-lg shadow-primary/20"
-                                        : "hover:bg-white/5 text-theme/60 hover:text-white"
-                                        }`}
+                                    onClick={() => setActiveCategory(cat)}
+                                    className={`px-6 py-2.5 rounded-xl transition-all duration-300 font-bold text-xs uppercase tracking-widest whitespace-nowrap ${
+                                        activeCategory === cat 
+                                            ? "bg-primary text-white shadow-lg shadow-primary/20" 
+                                            : "text-white/40 hover:text-white"
+                                    }`}
                                 >
-                                    {cat === "all" ? "All" : cat}
+                                    {cat}
                                 </button>
                             ))}
                         </div>
@@ -90,48 +104,50 @@ const Projects = ({ limit = 3 }) => {
                             transition={{ delay: (idx % 3) * 0.1 }}
                             className="group relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:border-primary/40 transition-all duration-500 overflow-hidden"
                         >
-                            <Link to={`/project/${project.id}`}>
-                                <div className="relative aspect-[4/3] overflow-hidden p-4 pb-0">
-                                    <img
-                                        src={project.image}
-                                        alt={project.title}
-                                        loading="lazy"
-                                        decoding="async"
-                                        className="w-full h-full object-cover object-top rounded-xl transition-transform duration-700 ease-out group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-4 rounded-xl bg-black/60 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center p-8 text-center">
-                                        <h3 className="text-white font-bold text-2xl mb-4 font-heading">{project.title}</h3>
-                                        <p className="text-white/80 text-sm mb-8 leading-relaxed line-clamp-3">{project.description}</p>
-                                        <span className="px-6 py-3 bg-primary text-white rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-lg shadow-primary/25">
-                                            View Details
-                                        </span>
+                            <article>
+                                <Link to={`/project/${project.id}`}>
+                                    <div className="relative aspect-[4/3] overflow-hidden p-4 pb-0">
+                                        <img
+                                            src={project.image_url || project.image}
+                                            alt={project.title}
+                                            loading="lazy"
+                                            decoding="async"
+                                            className="w-full h-full object-cover object-top rounded-xl transition-transform duration-700 ease-out group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-4 rounded-xl bg-black/60 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center p-8 text-center">
+                                            <h3 className="text-white font-bold text-2xl mb-4 font-heading">{project.title}</h3>
+                                            <p className="text-white/80 text-sm mb-8 leading-relaxed line-clamp-3">{project.description}</p>
+                                            <span className="px-6 py-3 bg-primary text-white rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-lg shadow-primary/25">
+                                                View Details
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Link>
+
+                                <div className="p-8">
+                                    <div className="flex justify-between items-start mb-6">
+                                        <Link to={`/project/${project.id}`}>
+                                            <h3 className="font-bold text-2xl text-white group-hover:text-primary transition-colors duration-300 font-heading">
+                                                {project.title}
+                                            </h3>
+                                        </Link>
+                                    </div>
+                                    <p className="mb-8 text-theme/60 text-sm line-clamp-2 leading-relaxed h-10">
+                                        {project.description}
+                                    </p>
+                                    <div className="flex justify-between items-center pt-6 border-t border-white/5">
+                                        <Link to={`/project/${project.id}`} className="text-primary hover:text-secondary flex items-center gap-2 font-bold text-sm transition-colors group/link">
+                                            <span>Case Study</span>
+                                            <ArrowRight01Icon size={18} className="group-hover/link:translate-x-1.5 transition-transform" />
+                                        </Link>
                                     </div>
                                 </div>
-                            </Link>
-
-                            <div className="p-8">
-                                <div className="flex justify-between items-start mb-6">
-                                    <Link to={`/project/${project.id}`}>
-                                        <h3 className="font-bold text-2xl text-white group-hover:text-primary transition-colors duration-300 font-heading">
-                                            {project.title}
-                                        </h3>
-                                    </Link>
-                                </div>
-                                <p className="mb-8 text-theme/60 text-sm line-clamp-2 leading-relaxed h-10">
-                                    {project.description}
-                                </p>
-                                <div className="flex justify-between items-center pt-6 border-t border-white/5">
-                                    <Link to={`/project/${project.id}`} className="text-primary hover:text-secondary flex items-center gap-2 font-bold text-sm transition-colors group/link">
-                                        <span>Case Study</span>
-                                        <ArrowRight01Icon size={18} className="group-hover/link:translate-x-1.5 transition-transform" />
-                                    </Link>
-                                </div>
-                            </div>
+                            </article>
                         </motion.div>
                     ))}
                 </div>
 
-                {!showAll && filteredProjects.length > limit && (
+                {!showAll && dataToUse.length > limit && (
                     <motion.div
                         {...fadeInUp}
                         className="mt-20 text-center"
