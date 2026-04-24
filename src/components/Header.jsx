@@ -8,7 +8,8 @@ import {
     FileDownloadIcon,
     ViewIcon,
     Download01Icon,
-    Home01Icon
+    Home01Icon,
+    BookOpen01Icon
 } from "hugeicons-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSupabase } from "../context/SupabaseContext";
@@ -33,7 +34,7 @@ const Header = () => {
         { name: "Home", href: "/#hero", icon: Home01Icon },
         { name: "About", href: "/#about", icon: UserAccountIcon },
         { name: "Projects", href: "/#projects", icon: Layout01Icon },
-        { name: "Skills", href: "/#skills", icon: Sorting05Icon },
+        { name: "Insights", href: "/blog", icon: BookOpen01Icon, isRoute: true },
         { name: "Contact", href: "/#contact", icon: Mail01Icon },
         { name: "Resume", href: "#", icon: FileDownloadIcon, isResume: true }
     ];
@@ -110,6 +111,22 @@ const Header = () => {
                                     )}
                                 </AnimatePresence>
                             </div>
+                        ) : item.isRoute ? (
+                            <Link
+                                to={item.href}
+                                className="flex flex-col items-center gap-0.5 md:gap-1 px-2.5 md:px-4 py-1.5 md:py-2 group"
+                                aria-label={item.name}
+                            >
+                                <motion.div
+                                    animate={{ scale: hoveredItem === item.name || location.pathname.startsWith(item.href) ? 1.1 : 1 }}
+                                    className={`${location.pathname.startsWith(item.href) ? 'text-primary' : 'text-white/70 group-hover:text-white'} transition-all duration-300`}
+                                >
+                                    <item.icon className="w-4 h-4 md:w-5 md:h-5" />
+                                </motion.div>
+                                <span className={`text-[8px] md:text-[10px] font-bold uppercase tracking-wider ${location.pathname.startsWith(item.href) ? 'text-primary' : 'text-white/40 group-hover:text-white/70'} transition-all duration-300`}>
+                                    {item.name}
+                                </span>
+                            </Link>
                         ) : (
                             <a
                                 href={item.href}

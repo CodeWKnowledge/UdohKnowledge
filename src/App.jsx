@@ -29,6 +29,11 @@ const SiteManager = () => {
         title = `${project.title} | Projects by ${siteName}`;
         description = project.description;
       }
+    } else if (location.pathname.startsWith('/blog')) {
+      if (location.pathname === '/blog') {
+        title = `Blog & Insights | ${siteName} Agency`;
+        description = "Read our expert insights on custom website development, business web design, and digital scaling in Nigeria and globally.";
+      }
     } else if (location.pathname.startsWith('/admin')) {
       title = `Admin Dashboard | ${siteName}`;
     }
@@ -42,6 +47,15 @@ const SiteManager = () => {
     // Update OG Title
     const ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) ogTitle.setAttribute('content', title);
+
+    // Dynamic Canonical Link
+    let canonicalTag = document.querySelector('link[rel="canonical"]');
+    if (!canonicalTag) {
+      canonicalTag = document.createElement('link');
+      canonicalTag.rel = 'canonical';
+      document.head.appendChild(canonicalTag);
+    }
+    canonicalTag.href = `https://udohknowledge.pxxl.click${location.pathname === '/' ? '' : location.pathname}`;
 
   }, [settings, projects, location]);
 
@@ -59,6 +73,8 @@ const ProjectDetails = lazy(() => import('./components/ProjectDetails'));
 const Reviews = lazy(() => import('./components/Reviews'));
 const Services = lazy(() => import('./components/Services'));
 const NotFound = lazy(() => import('./components/NotFound'));
+const Blog = lazy(() => import('./components/Blog'));
+const BlogPost = lazy(() => import('./components/BlogPost'));
 
 // Admin Lazy load components
 const AdminLayout = lazy(() => import('./admin/AdminLayout'));
@@ -68,6 +84,7 @@ const ContentManager = lazy(() => import('./admin/ContentManager'));
 const ProjectsManager = lazy(() => import('./admin/ProjectsManager'));
 const SettingsManager = lazy(() => import('./admin/SettingsManager'));
 const ReviewsManager = lazy(() => import('./admin/ReviewsManager'));
+const BlogManager = lazy(() => import('./admin/BlogManager'));
 
 // Loading component for Suspense
 const SectionLoader = () => (
@@ -134,12 +151,15 @@ function App() {
             <Route path="projects" element={<ProjectsManager />} />
             <Route path="content" element={<ContentManager />} />
             <Route path="reviews" element={<ReviewsManager />} />
+            <Route path="blog" element={<BlogManager />} />
             <Route path="settings" element={<SettingsManager />} />
           </Route>
 
           {/* Public Routes */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
           <Route path="/project/:id" element={<PublicLayout><ProjectDetails /></PublicLayout>} />
+          <Route path="/blog" element={<PublicLayout><Blog /></PublicLayout>} />
+          <Route path="/blog/:slug" element={<PublicLayout><BlogPost /></PublicLayout>} />
           
           {/* Catch-all 404 Route */}
           <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />

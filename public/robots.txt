@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
+Allow: /blog
 Disallow: /admin
 Disallow: /admin/*
+Disallow: /*?*
 
 Sitemap: https://udohknowledge.pxxl.click/sitemap.xml

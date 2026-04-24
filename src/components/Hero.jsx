@@ -72,23 +72,23 @@ const Hero = () => {
                             <motion.h2
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.1 }}
-                                className="text-2xl font-logo   font-bold mb-3 text-theme-muted text-right mr-20"
+                                className="text-2xl md:text-3xl font-logo font-bold mb-3 text-theme-muted text-center"
                             >
-                                Frontend Engineer
+                                Web Agency & Frontend Engineer
                             </motion.h2>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
-                                className="text-lg md:text-xl mb-2 text-theme text-center"
+                                className="text-lg md:text-xl mb-2 text-theme text-center leading-relaxed"
                             >
-                                {content?.hero_description1 || "Building high-performance websites for businesses & brands."}
+                                {content?.hero_description1 || "Engineering custom websites for businesses globally and in Nigeria."}
                             </motion.p>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.3 }}
                                 className="text-lg md:text-xl mb-8 text-theme text-center"
                             >
-                                {content?.hero_description2 || "Crafting fast, scalable, and beautiful digital solutions that drive growth."}
+                                {content?.hero_description2 || "We build scalable, high-performance web agency solutions, ecommerce platforms, and digital products that drive massive revenue."}
                             </motion.p>
                         </div>
 
@@ -98,16 +98,16 @@ const Hero = () => {
                             className="flex flex-wrap items-center justify-center gap-4 mb-8"
                         >
                             <a
-                                href="#projects"
-                                className="px-6 py-3 bg-primary text-white font-medium !rounded-button hover:bg-opacity-90 transition-all shadow-lg shadow-primary/20 whitespace-nowrap"
+                                href="#contact"
+                                className="px-8 py-4 bg-primary text-white font-bold tracking-widest uppercase text-xs !rounded-xl hover:bg-primary/90 transition-all shadow-[0_0_30px_rgba(126,34,206,0.3)] whitespace-nowrap"
                             >
-                                View Projects
+                                Get a Website
                             </a>
                             <a
-                                href="#contact"
-                                className="px-6 py-3 border border-theme font-medium !rounded-full hover:border-primary hover:text-primary transition-all whitespace-nowrap"
+                                href="#projects"
+                                className="px-8 py-4 border border-white/20 text-white font-bold tracking-widest uppercase text-xs !rounded-xl hover:bg-white/10 transition-all whitespace-nowrap"
                             >
-                                Start a Project!
+                                View Portfolio
                             </a>
                         </motion.div>
                         <motion.div

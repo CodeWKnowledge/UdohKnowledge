@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../services/supabase';
-import { getContent, getProjects, getSettings, getReviews } from '../services/api';
+import { getContent, getProjects, getSettings, getReviews, getPosts } from '../services/api';
 
 const SupabaseContext = createContext(null);
 
@@ -9,6 +9,7 @@ export const SupabaseProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [settings, setSettings] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [posts, setPosts] = useState([]);
   
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,11 +17,12 @@ export const SupabaseProvider = ({ children }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [fetchedContent, fetchedProjects, fetchedSettings, fetchedReviews] = await Promise.all([
+      const [fetchedContent, fetchedProjects, fetchedSettings, fetchedReviews, fetchedPosts] = await Promise.all([
         getContent(),
         getProjects(),
         getSettings(),
-        getReviews()
+        getReviews(),
+        getPosts()
       ]);
       
       // Sort projects based on fetchedContent.project_order if available
@@ -51,6 +53,7 @@ export const SupabaseProvider = ({ children }) => {
       setProjects(sortedProjects);
       setSettings(fetchedSettings || null);
       setReviews(fetchedReviews || []);
+      setPosts(fetchedPosts || []);
     } catch (err) {
       console.error("Failed to fetch initial data", err);
     } finally {
@@ -87,6 +90,9 @@ export const SupabaseProvider = ({ children }) => {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'reviews' }, (payload) => {
         fetchData();
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, (payload) => {
+        fetchData();
+      })
       .subscribe();
 
     return () => {
@@ -96,7 +102,7 @@ export const SupabaseProvider = ({ children }) => {
   }, []);
 
   return (
-    <SupabaseContext.Provider value={{ content, projects, settings, reviews, user, loading, refreshData: fetchData }}>
+    <SupabaseContext.Provider value={{ content, projects, settings, reviews, posts, user, loading, refreshData: fetchData }}>
       {children}
     </SupabaseContext.Provider>
   );

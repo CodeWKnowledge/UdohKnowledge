@@ -63,6 +63,20 @@ create table if not exists public.reviews (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
+-- Posts Table (Blog)
+create table if not exists public.posts (
+  id uuid primary key default uuid_generate_v4(),
+  title text not null,
+  slug text unique not null,
+  excerpt text,
+  content text not null,
+  category text,
+  image_url text,
+  read_time text,
+  published_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
 -- ------------------------------------------
 -- 2. SCHEMA PATCHING (For Existing Databases)
 -- ------------------------------------------
@@ -104,6 +118,7 @@ alter table public.projects enable row level security;
 alter table public.settings enable row level security;
 alter table public.admin_users enable row level security;
 alter table public.reviews enable row level security;
+alter table public.posts enable row level security;
 
 -- Drop existing to avoid duplication
 drop policy if exists "Public can view content" on public.content;
@@ -112,12 +127,14 @@ drop policy if exists "Public can view settings" on public.settings;
 drop policy if exists "Public can view admin_users" on public.admin_users;
 drop policy if exists "Public can view approved reviews" on public.reviews;
 drop policy if exists "Public can submit reviews" on public.reviews;
+drop policy if exists "Public can view posts" on public.posts;
 
 drop policy if exists "Authenticated users can manage content" on public.content;
 drop policy if exists "Authenticated users can manage projects" on public.projects;
 drop policy if exists "Authenticated users can manage settings" on public.settings;
 drop policy if exists "Authenticated users can insert admin_users" on public.admin_users;
 drop policy if exists "Authenticated users can manage reviews" on public.reviews;
+drop policy if exists "Authenticated users can manage posts" on public.posts;
 
 -- Create Policies
 create policy "Public can view content" on public.content for select using (true);
@@ -132,6 +149,9 @@ create policy "Authenticated users can manage projects" on public.projects for a
 create policy "Authenticated users can manage settings" on public.settings for all using (auth.role() = 'authenticated');
 create policy "Authenticated users can insert admin_users" on public.admin_users for insert with check (auth.role() = 'authenticated');
 create policy "Authenticated users can manage reviews" on public.reviews for all using (auth.role() = 'authenticated');
+
+create policy "Public can view posts" on public.posts for select using (true);
+create policy "Authenticated users can manage posts" on public.posts for all using (auth.role() = 'authenticated');
 
 -- Storage Bucket Logic
 do $$

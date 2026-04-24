@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import { useSupabase } from '../context/SupabaseContext';
 import { supabase } from '../services/supabase';
-import { DashboardSquare02Icon, Folder03Icon, TextIcon, Settings02Icon, Logout01Icon, Menu01Icon, Cancel01Icon, Message01Icon } from 'hugeicons-react';
+import { DashboardSquare02Icon, Folder03Icon, TextIcon, Settings02Icon, Logout01Icon, Menu01Icon, Cancel01Icon, Message01Icon, BookOpen01Icon } from 'hugeicons-react';
 import { Toaster } from 'react-hot-toast';
 
 const AdminLayout = () => {
@@ -38,6 +38,7 @@ const AdminLayout = () => {
     { name: 'Projects', path: '/admin/projects', icon: <Folder03Icon size={20} /> },
     { name: 'Content', path: '/admin/content', icon: <TextIcon size={20} /> },
     { name: 'Reviews', path: '/admin/reviews', icon: <Message01Icon size={20} /> },
+    { name: 'Blog', path: '/admin/blog', icon: <BookOpen01Icon size={20} /> },
     { name: 'Settings', path: '/admin/settings', icon: <Settings02Icon size={20} /> },
   ];
 

@@ -58,7 +58,7 @@ const Services = () => {
                             <span className="text-primary font-bold uppercase tracking-[0.2em] text-[9px]">Capabilities</span>
                         </div>
                         <h2 className="text-3xl md:text-5xl font-bold text-white font-heading leading-tight italic">
-                            {content?.services_header_title || "Business Solutions."}
+                            {content?.services_header_title || "Web Design & Development Services."}
                         </h2>
                     </motion.div>
                 </div>

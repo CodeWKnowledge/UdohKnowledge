@@ -179,3 +179,48 @@ export const deleteReview = async (id) => {
   if (error) throw error;
   return true;
 };
+
+// --- POSTS API ---
+export const getPosts = async () => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('published_at', { ascending: false });
+    
+  if (error) {
+    console.error('Error fetching posts:', error);
+    return [];
+  }
+  return data;
+};
+
+export const createPost = async (postData) => {
+  const { data, error } = await supabase
+    .from('posts')
+    .insert([postData])
+    .select();
+    
+  if (error) throw error;
+  return data[0];
+};
+
+export const updatePost = async (id, postData) => {
+  const { data, error } = await supabase
+    .from('posts')
+    .update(postData)
+    .eq('id', id)
+    .select();
+    
+  if (error) throw error;
+  return data[0];
+};
+
+export const deletePost = async (id) => {
+  const { error } = await supabase
+    .from('posts')
+    .delete()
+    .eq('id', id);
+    
+  if (error) throw error;
+  return true;
+};

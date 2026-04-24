@@ -37,56 +37,78 @@
   <meta property="twitter:site" content="@CodeWKnowledge" />
   <meta property="twitter:creator" content="@CodeWKnowledge" />
 
-  <!-- Structured Data: Person Schema -->
+  <!-- Advanced Multi-Entity Structured Data -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Knowledge Udoh",
-      "jobTitle": "Frontend Engineer",
-      "url": "https://udohknowledge.pxxl.click",
-      "sameAs": [
-        "https://linkedin.com/in/knowledge54",
-        "https://github.com/CODEWKNOWLEDGE",
-        "https://x.com/CodeWKnowledge"
-      ],
-      "description": "Frontend Engineer specializing in crafting innovative digital experiences and scalable web products."
-    }
-  </script>
-
-  <!-- Structured Data: Web Design Service -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebDesignService",
-      "name": "Knowledge Udoh Web Solutions",
-      "description": "High-performance business website development, e-commerce solutions, and UI/UX design.",
-      "url": "https://udohknowledge.pxxl.click",
-      "provider": {
-        "@type": "Person",
-        "name": "Knowledge Udoh"
-      },
-      "areaServed": "Global",
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Web Services",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Business Website Development"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "E-commerce Platforms"
-            }
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://udohknowledge.pxxl.click/#person",
+          "name": "Knowledge Udoh",
+          "jobTitle": "Lead Frontend Engineer",
+          "url": "https://udohknowledge.pxxl.click",
+          "sameAs": [
+            "https://linkedin.com/in/knowledge54",
+            "https://github.com/CODEWKNOWLEDGE",
+            "https://x.com/CodeWKnowledge"
+          ]
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://udohknowledge.pxxl.click/#organization",
+          "name": "Knowledge Udoh Web Agency",
+          "url": "https://udohknowledge.pxxl.click",
+          "logo": "https://udohknowledge.pxxl.click/og-image.png",
+          "description": "Premium business website development and custom React ecommerce solutions mapping global standards to the Nigerian tech space.",
+          "founder": {
+            "@id": "https://udohknowledge.pxxl.click/#person"
           }
-        ]
-      }
+        },
+        {
+          "@type": "WebDesignService",
+          "@id": "https://udohknowledge.pxxl.click/#service",
+          "name": "Custom Website Development",
+          "description": "High-performance React single-page applications, ecommerce solutions, and enterprise UI/UX design.",
+          "provider": {
+            "@id": "https://udohknowledge.pxxl.click/#organization"
+          },
+          "areaServed": [
+            {
+              "@type": "Country",
+              "name": "Nigeria"
+            },
+            {
+              "@type": "Country",
+              "name": "United States"
+            },
+            {
+              "@type": "Country",
+              "name": "United Kingdom"
+            }
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Digital Agency Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Business Website Development"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Custom React E-commerce Platforms"
+                }
+              }
+            ]
+          }
+        }
+      ]
     }
   </script>
 </head>
