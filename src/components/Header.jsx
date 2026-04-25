@@ -128,8 +128,8 @@ const Header = () => {
                                 </span>
                             </Link>
                         ) : (
-                            <a
-                                href={item.href}
+                            <Link
+                                to={item.href}
                                 className="flex flex-col items-center gap-0.5 md:gap-1 px-2.5 md:px-4 py-1.5 md:py-2 group"
                                 aria-label={item.name}
                             >
@@ -142,7 +142,7 @@ const Header = () => {
                                 <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-wider text-white/40 group-hover:text-white/70 transition-all duration-300">
                                     {item.name}
                                 </span>
-                            </a>
+                            </Link>
                         )}
                     </div>
                 ))}

@@ -40,12 +40,6 @@ const NotFound = () => {
           <Link 
             to="/#contact" 
             className="px-8 py-3.5 bg-white/5 text-white border border-white/10 hover:bg-white/10 font-bold rounded-xl transition-all active:scale-95 w-full sm:w-auto"
-            onClick={(e) => {
-              if (window.location.pathname === '/') {
-                e.preventDefault();
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
           >
             Contact Support
           </Link>

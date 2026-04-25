@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import { GithubIcon, Linkedin01Icon, NewTwitterIcon, TiktokIcon } from "hugeicons-react";
 import { useSupabase } from "../context/SupabaseContext";
 
@@ -17,9 +17,9 @@ const Footer = () => {
             <div className="container mx-auto px-6">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-12">
                     <div className="text-center md:text-left">
-                        <a href="#hero" className="text-3xl font-bold text-primary font-logo tracking-tight hover:text-secondary transition-colors">
+                        <Link to="/#hero" className="text-3xl font-bold text-primary font-logo tracking-tight hover:text-secondary transition-colors">
                             {settings?.site_name || "CodeW/Knowledge✦"}
-                        </a>
+                        </Link>
 
                     </div>
 

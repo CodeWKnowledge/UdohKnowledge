@@ -56,7 +56,7 @@ const SiteManager = () => {
       canonicalTag.rel = 'canonical';
       document.head.appendChild(canonicalTag);
     }
-    canonicalTag.href = `https://udohknowledge.pxxl.click${location.pathname === '/' ? '' : location.pathname}`;
+    canonicalTag.href = `https://knowledgeudoh.click${location.pathname === '/' ? '' : location.pathname}`;
 
   }, [settings, projects, location]);
 
@@ -94,12 +94,25 @@ const SectionLoader = () => (
   </div>
 );
 
-// Helper component to scroll to top on route change
+// Helper component to scroll to top or hash on route change
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+  
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (!hash) {
+      window.scrollTo(0, 0);
+    } else {
+      // Small delay to ensure the component is rendered before scrolling
+      setTimeout(() => {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [pathname, hash]);
+  
   return null;
 };
 

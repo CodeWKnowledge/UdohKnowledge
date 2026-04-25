@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { GithubIcon, Linkedin01Icon, NewTwitterIcon, TiktokIcon, ArrowDown01Icon } from "hugeicons-react";
 import mecat from "../assets/Knowledge/Smirk.png";
 import { motion } from "framer-motion";
@@ -97,18 +98,18 @@ const Hero = () => {
                             transition={{ ...fadeInUp.transition, delay: 0.4 }}
                             className="flex flex-wrap items-center justify-center gap-4 mb-8"
                         >
-                            <a
-                                href="#contact"
+                            <Link
+                                to="/#contact"
                                 className="px-8 py-4 bg-primary text-white font-bold tracking-widest uppercase text-xs !rounded-xl hover:bg-primary/90 transition-all shadow-[0_0_30px_rgba(126,34,206,0.3)] whitespace-nowrap"
                             >
-                                Get a Website
-                            </a>
-                            <a
-                                href="#projects"
+                                Work with me
+                            </Link>
+                            <Link
+                                to="/#projects"
                                 className="px-8 py-4 border border-white/20 text-white font-bold tracking-widest uppercase text-xs !rounded-xl hover:bg-white/10 transition-all whitespace-nowrap"
                             >
                                 View Portfolio
-                            </a>
+                            </Link>
                         </motion.div>
                         <motion.div
                             {...fadeInUp}
@@ -132,9 +133,9 @@ const Hero = () => {
 
                 </div>
                 <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 animate-bounce ">
-                    <a href="#about" className="w-10 h-10 flex items-center justify-center rounded-full bg-card border border-theme">
+                    <Link to="/#about" className="w-10 h-10 flex items-center justify-center rounded-full bg-card border border-theme">
                         <ArrowDown01Icon size={20} />
-                    </a>
+                    </Link>
                 </div>
             </div>
         </section>
