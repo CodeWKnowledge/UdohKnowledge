@@ -4,6 +4,7 @@ import { SupabaseProvider, useSupabase } from './context/SupabaseContext';
 import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Site Manager to handle dynamic SEO and Themes
 const SiteManager = () => {
@@ -131,42 +132,48 @@ const PublicLayout = ({ children }) => (
 
 function App() {
   return (
-    <SupabaseProvider>
-      <BrowserRouter>
-        <SiteManager />
-        <ScrollToTop />
-        <Routes>
-          {/* Admin Routes */}
-          <Route path="/admin/login" element={
-            <Suspense fallback={<SectionLoader />}>
-              <Login />
-            </Suspense>
-          } />
-          <Route path="/admin" element={
-            <Suspense fallback={<SectionLoader />}>
-              <AdminLayout />
-            </Suspense>
-          }>
-            <Route index element={<Dashboard />} />
-            <Route path="projects" element={<ProjectsManager />} />
-            <Route path="content" element={<ContentManager />} />
-            <Route path="reviews" element={<ReviewsManager />} />
-            <Route path="blog" element={<BlogManager />} />
-            <Route path="settings" element={<SettingsManager />} />
-          </Route>
+    <ErrorBoundary>
+      <SupabaseProvider>
+        <Toaster position="top-right" toastOptions={{
+          style: { background: '#111', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }
+        }} />
+        <BrowserRouter>
+          <SiteManager />
+          <ScrollToTop />
+          <Routes>
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={
+              <Suspense fallback={<SectionLoader />}>
+                <Login />
+              </Suspense>
+            } />
+            <Route path="/admin" element={
+              <Suspense fallback={<SectionLoader />}>
+                <AdminLayout />
+              </Suspense>
+            }>
+              <Route index element={<Dashboard />} />
+              <Route path="projects" element={<ProjectsManager />} />
+              <Route path="content" element={<ContentManager />} />
+              <Route path="reviews" element={<ReviewsManager />} />
+              <Route path="blog" element={<BlogManager />} />
+              <Route path="settings" element={<SettingsManager />} />
+            </Route>
 
-          {/* Public Routes */}
-          <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-          <Route path="/project/:id" element={<PublicLayout><ProjectDetails /></PublicLayout>} />
-          <Route path="/blog" element={<PublicLayout><Blog /></PublicLayout>} />
-          <Route path="/blog/:slug" element={<PublicLayout><BlogPost /></PublicLayout>} />
-          
-          {/* Catch-all 404 Route */}
-          <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
-        </Routes>
-      </BrowserRouter>
-    </SupabaseProvider>
+            {/* Public Routes */}
+            <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+            <Route path="/project/:id" element={<PublicLayout><ProjectDetails /></PublicLayout>} />
+            <Route path="/blog" element={<PublicLayout><Blog /></PublicLayout>} />
+            <Route path="/blog/:slug" element={<PublicLayout><BlogPost /></PublicLayout>} />
+            
+            {/* Catch-all 404 Route */}
+            <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
+          </Routes>
+        </BrowserRouter>
+      </SupabaseProvider>
+    </ErrorBoundary>
   );
 }
 
 export default App;
+
