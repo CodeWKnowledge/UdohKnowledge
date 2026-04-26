@@ -145,7 +145,7 @@ const SiteManager = () => {
       canonicalTag.rel = 'canonical';
       document.head.appendChild(canonicalTag);
     }
-    canonicalTag.href = `${baseUrl}${location.pathname === '/' ? '' : location.pathname}`;
+    canonicalTag.href = `${baseUrl}${location.pathname}${location.pathname.endsWith('/') ? '' : '/'}`;
 
     // Handle Structured Data
     const oldScripts = document.querySelectorAll('script[type="application/ld+json"].dynamic-schema');

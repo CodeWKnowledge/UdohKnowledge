@@ -34,7 +34,7 @@ async function generateSitemap() {
     // Add Static Routes
     staticRoutes.forEach(route => {
       xml += `  <url>
-    <loc>${baseUrl}${route.loc}</loc>
+    <loc>${baseUrl}${route.loc}/</loc>
     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
@@ -45,7 +45,7 @@ async function generateSitemap() {
     projects?.forEach(project => {
       const identifier = project.slug || project.id;
       xml += `  <url>
-    <loc>${baseUrl}/project/${identifier}</loc>
+    <loc>${baseUrl}/project/${identifier}/</loc>
     <lastmod>${new Date(project.updated_at || Date.now()).toISOString().split('T')[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -55,7 +55,7 @@ async function generateSitemap() {
     // Add Posts
     posts?.forEach(post => {
       xml += `  <url>
-    <loc>${baseUrl}/blog/${post.slug}</loc>
+    <loc>${baseUrl}/blog/${post.slug}/</loc>
     <lastmod>${new Date(post.published_at || Date.now()).toISOString().split('T')[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
