@@ -62,7 +62,7 @@ const Hero = () => {
 
                         </motion.div>
                         <div className="flex-col items-center justify-center">
-                            <h2 className="text-lg md:text-xl ml-20 text-theme text-start ml-20">Hey, I'M</h2>
+                            <span className="text-lg md:text-xl ml-20 text-theme text-start ml-20 block mb-2">Hey, I'M</span>
                             <motion.h1
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.1 }}

@@ -53,7 +53,7 @@ const Experience = () => {
                         className="flex items-center gap-4 mb-16"
                     >
                         <div className="w-12 h-px bg-primary/30"></div>
-                        <h3 className="text-xl font-bold text-white/90 tracking-widest uppercase font-heading">Experience</h3>
+                        <h2 className="text-xl font-bold text-white/90 tracking-widest uppercase font-heading">Experience</h2>
                     </motion.div>
 
                     <div className="relative">
@@ -79,9 +79,9 @@ const Experience = () => {
 
                                         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
                                             <div className="flex flex-col">
-                                                <h4 className="text-xl font-bold text-white group-hover:text-secondary transition-colors duration-300">
+                                                <h3 className="text-xl font-bold text-white group-hover:text-secondary transition-colors duration-300">
                                                     {item.role}
-                                                </h4>
+                                                </h3>
                                                 <div className="flex items-center gap-2 mt-1">
                                                     <span className="text-theme/40 text-sm font-medium">at</span>
                                                     <span className="text-secondary font-medium accent-font italic text-lg decoration-secondary/30 hover:decoration-secondary transition-all">

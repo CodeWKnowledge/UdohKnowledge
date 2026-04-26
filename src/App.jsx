@@ -6,9 +6,9 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import ErrorBoundary from './components/ErrorBoundary';
 
-// Site Manager to handle dynamic SEO and Themes
+// Site Manager to handle dynamic SEO, Themes, and Analytics
 const SiteManager = () => {
-  const { settings, projects } = useSupabase();
+  const { settings, projects, posts, content } = useSupabase();
   const location = useLocation();
 
   useEffect(() => {
@@ -19,35 +19,124 @@ const SiteManager = () => {
 
     // 2. Handle Dynamic Titles & Meta
     const siteName = settings?.site_name || "Knowledge Udoh";
+    const baseUrl = "https://knowledgeudoh.click";
     let title = `${siteName} | Frontend Engineer & UI Designer`;
-    let description = "Knowledge Udoh is a high-performance Frontend Engineer specializing in React, UI/UX design, and building scalable digital products.";
+    let description = content?.hero_description1 || "Knowledge Udoh is a high-performance Frontend Engineer specializing in React, UI/UX design, and building scalable digital products.";
+    let image = `${baseUrl}/og-image.png`;
+    let type = "website";
+    let schema = [];
+
+    // Default Person & Organization Schema
+    const personSchema = {
+      "@type": "Person",
+      "@id": `${baseUrl}/#person`,
+      "name": "Knowledge Udoh",
+      "jobTitle": "Lead Frontend Engineer",
+      "url": baseUrl,
+      "sameAs": [
+        "https://linkedin.com/in/knowledge54",
+        "https://github.com/CODEWKNOWLEDGE",
+        "https://x.com/CodeWKnowledge"
+      ]
+    };
+
+    const orgSchema = {
+      "@type": "Organization",
+      "@id": `${baseUrl}/#organization`,
+      "name": `${siteName} Web Agency`,
+      "url": baseUrl,
+      "logo": `${baseUrl}/og-image.png`,
+      "description": "Premium business website development and custom React solutions.",
+      "founder": { "@id": `${baseUrl}/#person` }
+    };
 
     // Route-specific logic
     if (location.pathname.startsWith('/project/')) {
       const projectId = location.pathname.split('/').pop();
-      const project = projects?.find(p => p.id === projectId || p.slug === projectId);
+      const project = projects?.find(p => p.id.toString() === projectId.toString() || p.slug === projectId);
       if (project) {
         title = `${project.title} | Projects by ${siteName}`;
         description = project.description;
+        image = project.image_url || project.image || image;
+        type = "article";
+        schema.push({
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "name": project.title,
+          "description": project.description,
+          "image": image,
+          "author": { "@id": `${baseUrl}/#person` }
+        });
       }
-    } else if (location.pathname.startsWith('/blog')) {
-      if (location.pathname === '/blog') {
-        title = `Blog & Insights | ${siteName} Agency`;
-        description = "Read our expert insights on custom website development, business web design, and digital scaling in Nigeria and globally.";
+    } else if (location.pathname.startsWith('/blog/')) {
+      const slug = location.pathname.split('/').pop();
+      const post = posts?.find(p => p.slug === slug);
+      if (post) {
+        title = `${post.title} | ${siteName} Blog`;
+        
+        // Extract plain text for description
+        let plainText = '';
+        try {
+          const blocks = JSON.parse(post.content);
+          if (Array.isArray(blocks)) {
+            plainText = blocks
+              .filter(b => b.type === 'paragraph' || b.type === 'heading' || b.type === 'subheading')
+              .map(b => b.value)
+              .join(' ');
+          }
+        } catch (e) {
+          plainText = post.content.replace(/<[^>]+>/g, '');
+        }
+        description = plainText.substring(0, 160).trim() + '...';
+        image = post.image_url || image;
+        type = "article";
+        schema.push({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": post.title,
+          "description": description,
+          "image": image,
+          "datePublished": post.published_at || post.created_at,
+          "author": { "@id": `${baseUrl}/#person` }
+        });
       }
+    } else if (location.pathname === '/blog') {
+      title = `Blog & Insights | ${siteName} Agency`;
+      description = "Read our expert insights on custom website development, business web design, and digital scaling.";
     } else if (location.pathname.startsWith('/admin')) {
       title = `Admin Dashboard | ${siteName}`;
+      description = "Administrative access for site management.";
+    } else {
+      // Homepage / default
+      schema.push(personSchema, orgSchema);
     }
 
+    // Update Head
     document.title = title;
     
-    // Update Meta Description
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute('content', description);
+    const updateMeta = (name, value, isProperty = false) => {
+      if (!value) return;
+      const attr = isProperty ? 'property' : 'name';
+      let el = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', value);
+    };
 
-    // Update OG Title
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', title);
+    updateMeta('description', description);
+    updateMeta('title', title);
+    updateMeta('og:title', title, true);
+    updateMeta('og:description', description, true);
+    updateMeta('og:url', `${baseUrl}${location.pathname}`, true);
+    updateMeta('og:image', image, true);
+    updateMeta('og:type', type, true);
+    updateMeta('twitter:title', title, true);
+    updateMeta('twitter:description', description, true);
+    updateMeta('twitter:image', image, true);
+    updateMeta('twitter:card', 'summary_large_image', true);
 
     // Dynamic Canonical Link
     let canonicalTag = document.querySelector('link[rel="canonical"]');
@@ -56,12 +145,28 @@ const SiteManager = () => {
       canonicalTag.rel = 'canonical';
       document.head.appendChild(canonicalTag);
     }
-    canonicalTag.href = `https://knowledgeudoh.click${location.pathname === '/' ? '' : location.pathname}`;
+    canonicalTag.href = `${baseUrl}${location.pathname === '/' ? '' : location.pathname}`;
 
-  }, [settings, projects, location]);
+    // Handle Structured Data
+    const oldScripts = document.querySelectorAll('script[type="application/ld+json"].dynamic-schema');
+    oldScripts.forEach(s => s.remove());
+
+    if (schema.length > 0) {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.className = 'dynamic-schema';
+      script.text = JSON.stringify(schema.length === 1 && schema[0].hasOwnProperty('@context') ? schema[0] : {
+        "@context": "https://schema.org",
+        "@graph": schema
+      });
+      document.head.appendChild(script);
+    }
+
+  }, [settings, projects, posts, content, location]);
 
   return null;
 };
+
 
 // Public Lazy load components
 const About = lazy(() => import('./components/About'));

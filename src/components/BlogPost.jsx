@@ -12,45 +12,8 @@ const BlogPost = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (post) {
-      // 1. Dynamic Title
-      document.title = `${post.title} | Knowledge Udoh Blog`;
+  }, []);
 
-      // 2. Extract Plain Text for Meta Description
-      let plainText = '';
-      try {
-        const blocks = JSON.parse(post.content);
-        if (Array.isArray(blocks)) {
-          plainText = blocks
-            .filter(b => b.type === 'paragraph' || b.type === 'heading' || b.type === 'subheading')
-            .map(b => b.value)
-            .join(' ');
-        }
-      } catch (e) {
-        plainText = post.content.replace(/<[^>]+>/g, '');
-      }
-      
-      const description = plainText.substring(0, 160).trim() + '...';
-      
-      // Update Primary Meta
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) metaDesc.setAttribute('content', description);
-
-      // 3. Dynamic Social Meta (Open Graph)
-      const updateMeta = (property, content) => {
-        let el = document.querySelector(`meta[property="${property}"]`) || 
-                 document.querySelector(`meta[name="${property}"]`);
-        if (el) el.setAttribute('content', content);
-      };
-
-      updateMeta('og:title', post.title);
-      updateMeta('og:description', description);
-      if (post.image_url) updateMeta('og:image', post.image_url);
-      updateMeta('twitter:title', post.title);
-      updateMeta('twitter:description', description);
-      if (post.image_url) updateMeta('twitter:image', post.image_url);
-    }
-  }, [post, slug]);
 
   if (!post) {
     return <Navigate to="/blog" replace />;
