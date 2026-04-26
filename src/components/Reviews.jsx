@@ -287,12 +287,14 @@ const Reviews = () => {
                     onChange={(e) => setFormData(p => ({...p, name: e.target.value}))}
                     className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 focus:border-primary outline-none" 
                     placeholder="Full Name"
+                    autoComplete="name"
                   />
                   <input 
                     value={formData.company}
                     onChange={(e) => setFormData(p => ({...p, company: e.target.value}))}
                     className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 focus:border-primary outline-none" 
                     placeholder="Company (Optional)"
+                    autoComplete="organization"
                   />
                 </div>
                 

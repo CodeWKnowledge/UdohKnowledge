@@ -76,6 +76,7 @@ const Login = () => {
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="admin@example.com"
+              autoComplete="email"
             />
           </div>
           <div>
@@ -87,6 +88,7 @@ const Login = () => {
               value={password}
               onChange={e => setPassword(e.target.value)}
               placeholder="••••••••"
+              autoComplete="current-password"
             />
           </div>
           <button 

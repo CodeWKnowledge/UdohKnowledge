@@ -7,22 +7,6 @@ import { useSupabase } from "../context/SupabaseContext";
 
 const Hero = () => {
     const { content, settings } = useSupabase();
-    const [displayText, setDisplayText] = useState("");
-    const fullText = content?.hero_title || "Frontend Developer & UI Designer";
-    const typingSpeed = 100;
-
-    useEffect(() => {
-        let i = 0;
-        const timer = setInterval(() => {
-            if (i < fullText.length) {
-                setDisplayText((prev) => fullText.substring(0, i + 1));
-                i++;
-            } else {
-                clearInterval(timer);
-            }
-        }, typingSpeed);
-        return () => clearInterval(timer);
-    }, []);
 
     const fadeInUp = {
         initial: { opacity: 0, y: 20 },
