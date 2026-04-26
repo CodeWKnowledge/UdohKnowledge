@@ -150,13 +150,12 @@ export const getAdminReviews = async () => {
 };
 
 export const submitReview = async (reviewData) => {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('reviews')
-    .insert([reviewData])
-    .select();
+    .insert([reviewData]);
     
   if (error) throw error;
-  return data[0];
+  return true;
 };
 
 export const updateReviewApproval = async (id, approved) => {
