@@ -1,10 +1,10 @@
 {
   "trailingSlash": true,
   "cleanUrls": false,
-  "rewrites": [
+ "rewrites": [
   {
     "source": "/sitemap.xml",
-    "destination": "/sitemap.xml"
+    "destination": "/sitemap-data.xml"
   },
   {
     "source": "/robots.txt",
