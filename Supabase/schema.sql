@@ -33,6 +33,7 @@ create table if not exists public.projects (
   client text,
   category text[] default '{}',
   featured boolean default false,
+  status text default 'published',
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
@@ -73,6 +74,7 @@ create table if not exists public.posts (
   category text,
   image_url text,
   read_time text,
+  status text default 'published',
   published_at timestamp with time zone default timezone('utc'::text, now()) not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
@@ -104,6 +106,14 @@ begin
   else
     -- If it exists as text, convert it to text[]
     alter table public.projects alter column category type text[] using array[category];
+  end if;
+  
+  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'status') then
+    alter table public.projects add column status text default 'published';
+  end if;
+
+  if not exists (select from pg_attribute where attrelid = 'public.posts'::regclass and attname = 'status') then
+    alter table public.posts add column status text default 'published';
   end if;
 end $$;
 

@@ -1,10 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
 export default async function handler(req, res) {
-  // 1. Initialize Supabase Client
-  const supabaseUrl = process.env.VITE_SUPABASE_URL;
-  const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+  // 1. Initialize Supabase Client (Handling both Vite and Vercel naming conventions)
+  const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+  const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
   const baseUrl = 'https://knowledgeudoh.click';
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.error('Sitemap Error: Supabase credentials missing.');
+    // Return empty but valid sitemap to avoid 404/500
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+    return res.status(200).send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`);
+  }
 
   const supabase = createClient(supabaseUrl, supabaseKey);
 

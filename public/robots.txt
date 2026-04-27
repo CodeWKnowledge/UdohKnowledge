@@ -5,4 +5,4 @@ Disallow: /admin
 Disallow: /admin/*
 Disallow: /*?*
 
-Sitemap: https://knowledgeudoh.click/sitemap.txt
+Sitemap: https://knowledgeudoh.click/sitemap.xml
