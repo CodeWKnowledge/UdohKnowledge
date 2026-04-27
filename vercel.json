@@ -1,18 +1,9 @@
 {
   "trailingSlash": true,
   "cleanUrls": false,
-  "redirects": [
-    {
-      "source": "/sitemap.xml",
-      "destination": "/sitemap-data.xml",
-      "permanent": true
-    }
-  ],
+
  "rewrites": [
-  {
-    "source": "/sitemap-data.xml",
-    "destination": "/sitemap-data.xml"
-  },
+
   {
     "source": "/robots.txt",
     "destination": "/robots.txt"
@@ -23,15 +14,7 @@
   }
 ],
   "headers": [
-    {
-      "source": "/sitemap-data.xml",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/xml"
-        }
-      ]
-    },
+
     {
       "source": "/assets/(.*)",
       "headers": [
