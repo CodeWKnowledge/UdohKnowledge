@@ -1,17 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
 export default async function handler(req, res) {
-  // 1. Initialize Supabase Client (Handling both Vite and Vercel naming conventions)
-  const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-  const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+  // 1. Initialize Supabase Client
+  const supabaseUrl = process.env.VITE_SUPABASE_URL;
+  const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
   const baseUrl = 'https://knowledgeudoh.click';
-
-  if (!supabaseUrl || !supabaseKey) {
-    console.error('Sitemap Error: Supabase credentials missing.');
-    // Return empty but valid sitemap to avoid 404/500
-    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-    return res.status(200).send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`);
-  }
 
   const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -26,12 +19,10 @@ export default async function handler(req, res) {
       supabase
         .from('projects')
         .select('id, slug, updated_at, created_at')
-        .eq('status', 'published')
         .order('updated_at', { ascending: false }),
       supabase
         .from('posts')
         .select('slug, published_at, updated_at, created_at')
-        .eq('status', 'published')
         .order('updated_at', { ascending: false })
     ]);
 
@@ -93,11 +84,11 @@ export default async function handler(req, res) {
     // 5. Set Headers (STRICT ENFORCEMENT)
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('X-Robots-Tag', 'noindex, follow'); // Keep sitemap out of search results but follow links
     res.setHeader('Cache-Control', 'public, max-age=3600');
     
-    // Explicitly prevent Content-Disposition which can cause 'Couldn't fetch' issues if set to 'attachment'
-    res.setHeader('Content-Disposition', 'inline');
+    // Ensure NO Content-Disposition is set. 
+    // We explicitly avoid setting it. 
+    // If the platform injects it, setting a correct Content-Type often bypasses it for non-file extensions.
     
     // 6. Send Response
     return res.status(200).send(xml);
@@ -107,8 +98,8 @@ export default async function handler(req, res) {
     
     // 7. Failsafe: Return valid empty sitemap on any error
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-    res.setHeader('X-Robots-Tag', 'noindex, follow');
-    res.setHeader('Content-Disposition', 'inline');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
     return res.status(200).send(emptySitemap);
   }
 }

@@ -30,7 +30,7 @@ To update the default/fallback metadata, modify the `SiteManager` component in `
 
 ## 3. Sitemap & Robots.txt
 
-### Sitemap (`public/sitemap.txt`)
+### Sitemap (`public/sitemap.xml`)
 The sitemap is now **automatically generated** from your live Supabase data.
 - **How it works**: A script in `scripts/generate-sitemap.js` fetches all your projects and blog posts and builds the XML structure.
 - **How to update**: Run `npm run generate-sitemap` manually, or just run `npm run build`, which automatically triggers the generation.
@@ -39,7 +39,7 @@ The sitemap is now **automatically generated** from your live Supabase data.
 ### Robots.txt (`public/robots.txt`)
 - **Allow**: All public routes and `/blog`.
 - **Disallow**: `/admin` and all admin-related subpaths.
-- **Sitemap Link**: Points to `https://knowledgeudoh.click/sitemap.txt`.
+- **Sitemap Link**: Points to `https://knowledgeudoh.click/sitemap.xml`.
 
 ---
 
@@ -60,7 +60,7 @@ When adding new blog posts or projects via the Admin Dashboard:
 2. Add your domain (`knowledgeudoh.click`).
 3. Choose **URL Prefix** or **Domain** verification.
 4. If using URL Prefix, download the HTML verification file and place it in the `public/` folder of this project, then deploy.
-5. Submit your sitemap: `https://knowledgeudoh.click/sitemap.txt`.
+5. Submit your sitemap: `https://knowledgeudoh.click/sitemap.xml`.
 
 ### Google Analytics (GA4)
 1. Create a GA4 property in the [Google Analytics Admin](https://analytics.google.com/).

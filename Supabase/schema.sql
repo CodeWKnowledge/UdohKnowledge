@@ -3,12 +3,16 @@
 -- ==========================================
 -- This script is idempotent. Running it multiple times 
 -- will not destroy existing data, but will ensure all 
--- required columns and policies exist.
+-- required columns, triggers, and policies exist.
 
 -- Enable UUID extension
 create extension if not exists "uuid-ossp";
 
--- Function to handle updated_at
+-- ------------------------------------------
+-- 1. HELPER FUNCTIONS
+-- ------------------------------------------
+
+-- Function to handle updated_at timestamps automatically
 create or replace function public.handle_updated_at()
 returns trigger as $$
 begin
@@ -17,15 +21,16 @@ begin
 end;
 $$ language plpgsql;
 
-
--- 1. TABLES SETUP
+-- ------------------------------------------
+-- 2. TABLES SETUP
 -- ------------------------------------------
 
 -- Content Table (Static Text Nodes)
 create table if not exists public.content (
   id uuid primary key default uuid_generate_v4(),
   key text unique not null,
-  value text not null
+  value text not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
 -- Projects Table (Portfolio Gallery & Case Studies)
@@ -44,30 +49,25 @@ create table if not exists public.projects (
   category text[] default '{}',
   featured boolean default false,
   status text default 'published',
-  slug text unique,
-  updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
-
--- Trigger for projects updated_at
-drop trigger if exists on_projects_updated on public.projects;
-create trigger on_projects_updated
-  before update on public.projects
-  for each row execute procedure public.handle_updated_at();
 
 -- Settings Table (Global Configuration)
 create table if not exists public.settings (
   id uuid primary key default uuid_generate_v4(),
   site_name text not null,
   primary_color text not null,
-  social_links jsonb default '{}'::jsonb
+  social_links jsonb default '{}'::jsonb,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
 -- Admin Users Table (Authorized Dashboard Users)
 create table if not exists public.admin_users (
   id uuid primary key default uuid_generate_v4(),
   email text not null unique,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
 -- Reviews Table (Testimonials)
@@ -79,7 +79,8 @@ create table if not exists public.reviews (
   company text,
   avatar_url text,
   approved boolean default false,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
 -- Posts Table (Blog)
@@ -94,74 +95,85 @@ create table if not exists public.posts (
   read_time text,
   status text default 'published',
   published_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Trigger for posts updated_at
-drop trigger if exists on_posts_updated on public.posts;
-create trigger on_posts_updated
-  before update on public.posts
-  for each row execute procedure public.handle_updated_at();
-
 -- ------------------------------------------
--- 2. SCHEMA PATCHING (For Existing Databases)
+-- 3. SCHEMA PATCHING (For Existing Databases)
 -- ------------------------------------------
 -- Ensures columns exist even if table was created in an older version
 
 do $$
 begin
+  -- Projects Table Patches
   if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'details') then
     alter table public.projects add column details text;
   end if;
   if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'technologies') then
     alter table public.projects add column technologies text[] default '{}';
   end if;
-  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'date') then
-    alter table public.projects add column date text;
+  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'status') then
+    alter table public.projects add column status text default 'published';
   end if;
-  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'type') then
-    alter table public.projects add column type text;
-  end if;
-  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'client') then
-    alter table public.projects add column client text;
+  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'updated_at') then
+    alter table public.projects add column updated_at timestamp with time zone default timezone('utc'::text, now()) not null;
   end if;
   if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'category') then
     alter table public.projects add column category text[] default '{}';
   else
     -- If it exists as text, convert it to text[]
-    alter table public.projects alter column category type text[] using array[category];
-  end if;
-  
-  -- Add status to projects
-  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'status') then
-    alter table public.projects add column status text default 'published';
+    if (select data_type from information_schema.columns where table_name = 'projects' and column_name = 'category') = 'text' then
+      alter table public.projects alter column category type text[] using array[category];
+    end if;
   end if;
 
-  -- Add status to posts
+  -- Posts Table Patches
   if not exists (select from pg_attribute where attrelid = 'public.posts'::regclass and attname = 'status') then
     alter table public.posts add column status text default 'published';
   end if;
-
-  -- Add slug to projects
-  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'slug') then
-    alter table public.projects add column slug text unique;
-  end if;
-
-  -- Add updated_at to projects
-  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'updated_at') then
-    alter table public.projects add column updated_at timestamp with time zone default timezone('utc'::text, now()) not null;
-  end if;
-
-  -- Add updated_at to posts
   if not exists (select from pg_attribute where attrelid = 'public.posts'::regclass and attname = 'updated_at') then
     alter table public.posts add column updated_at timestamp with time zone default timezone('utc'::text, now()) not null;
   end if;
+
+  -- Reviews Table Patches
+  if not exists (select from pg_attribute where attrelid = 'public.reviews'::regclass and attname = 'updated_at') then
+    alter table public.reviews add column updated_at timestamp with time zone default timezone('utc'::text, now()) not null;
+  end if;
+  
+  -- Content Table Patches
+  if not exists (select from pg_attribute where attrelid = 'public.content'::regclass and attname = 'updated_at') then
+    alter table public.content add column updated_at timestamp with time zone default timezone('utc'::text, now()) not null;
+  end if;
+
+  -- Settings Table Patches
+  if not exists (select from pg_attribute where attrelid = 'public.settings'::regclass and attname = 'updated_at') then
+    alter table public.settings add column updated_at timestamp with time zone default timezone('utc'::text, now()) not null;
+  end if;
 end $$;
 
+-- ------------------------------------------
+-- 4. TRIGGERS (Automated Timestamps)
+-- ------------------------------------------
+
+-- Drop existing triggers to avoid errors on multiple runs
+drop trigger if exists set_updated_at_content on public.content;
+drop trigger if exists set_updated_at_projects on public.projects;
+drop trigger if exists set_updated_at_settings on public.settings;
+drop trigger if exists set_updated_at_admin_users on public.admin_users;
+drop trigger if exists set_updated_at_reviews on public.reviews;
+drop trigger if exists set_updated_at_posts on public.posts;
+
+-- Create triggers
+create trigger set_updated_at_content before update on public.content for each row execute procedure public.handle_updated_at();
+create trigger set_updated_at_projects before update on public.projects for each row execute procedure public.handle_updated_at();
+create trigger set_updated_at_settings before update on public.settings for each row execute procedure public.handle_updated_at();
+create trigger set_updated_at_admin_users before update on public.admin_users for each row execute procedure public.handle_updated_at();
+create trigger set_updated_at_reviews before update on public.reviews for each row execute procedure public.handle_updated_at();
+create trigger set_updated_at_posts before update on public.posts for each row execute procedure public.handle_updated_at();
 
 -- ------------------------------------------
--- 3. SECURITY (RLS Policies)
+-- 5. SECURITY (RLS Policies)
 -- ------------------------------------------
 
 -- Enable RLS
@@ -195,14 +207,13 @@ create policy "Public can view settings" on public.settings for select using (tr
 create policy "Public can view admin_users" on public.admin_users for select using (true);
 create policy "Public can view approved reviews" on public.reviews for select using (approved = true);
 create policy "Public can submit reviews" on public.reviews for insert with check (true);
+create policy "Public can view posts" on public.posts for select using (true);
 
 create policy "Authenticated users can manage content" on public.content for all using (auth.role() = 'authenticated');
 create policy "Authenticated users can manage projects" on public.projects for all using (auth.role() = 'authenticated');
 create policy "Authenticated users can manage settings" on public.settings for all using (auth.role() = 'authenticated');
 create policy "Authenticated users can insert admin_users" on public.admin_users for insert with check (auth.role() = 'authenticated');
 create policy "Authenticated users can manage reviews" on public.reviews for all using (auth.role() = 'authenticated');
-
-create policy "Public can view posts" on public.posts for select using (true);
 create policy "Authenticated users can manage posts" on public.posts for all using (auth.role() = 'authenticated');
 
 -- Storage Bucket Logic
@@ -229,7 +240,7 @@ create policy "Authenticated users can manage media" on storage.objects for all 
 create policy "Public can upload avatars" on storage.objects for insert with check (bucket_id = 'media');
 
 -- ------------------------------------------
--- 4. DEFAULT CONTENT
+-- 6. DEFAULT CONTENT
 -- ------------------------------------------
 
 insert into public.content (key, value) values
@@ -261,50 +272,3 @@ values ('FlowSpy Monitoring', 'Cloud visibility platform', 'Built for high-scale
 on conflict do nothing;
 
 NOTIFY pgrst, 'reload schema';
-
--- ==========================================
--- QUICK PATCH: SITEMAP & MAINTENANCE
--- ==========================================
--- Run the following block in the Supabase SQL Editor if you need 
--- to manually fix missing columns or triggers.
-
--- 1. Add missing columns
-ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS status text DEFAULT 'published';
-ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS slug text;
-ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS updated_at timestamp with time zone DEFAULT now();
-
-ALTER TABLE public.posts ADD COLUMN IF NOT EXISTS status text DEFAULT 'published';
-ALTER TABLE public.posts ADD COLUMN IF NOT EXISTS updated_at timestamp with time zone DEFAULT now();
-
--- 2. Ensure slugs are unique for SEO
--- Note: This might fail if you have duplicate null/empty slugs already.
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'projects_slug_key') THEN
-        ALTER TABLE public.projects ADD CONSTRAINT projects_slug_key UNIQUE (slug);
-    END IF;
-END $$;
-
--- 3. Add automatic updated_at trigger logic
-CREATE OR REPLACE FUNCTION public.handle_updated_at()
-RETURNS trigger AS $$
-BEGIN
-  new.updated_at = now();
-  RETURN new;
-END;
-$$ LANGUAGE plpgsql;
-
--- Apply triggers
-DROP TRIGGER IF EXISTS on_projects_updated ON public.projects;
-CREATE TRIGGER on_projects_updated BEFORE UPDATE ON public.projects
-FOR EACH ROW EXECUTE PROCEDURE public.handle_updated_at();
-
-DROP TRIGGER IF EXISTS on_posts_updated ON public.posts;
-CREATE TRIGGER on_posts_updated BEFORE UPDATE ON public.posts
-FOR EACH ROW EXECUTE PROCEDURE public.handle_updated_at();
-
--- 4. Example Project Fix (Corrected array syntax for category)
-INSERT INTO public.projects (title, description, details, technologies, featured, category)
-VALUES ('FlowSpy Monitoring', 'Cloud visibility platform', 'Built for high-scale metrics.', '{"React", "Node.js"}', true, '{"Web App"}')
-ON CONFLICT DO NOTHING;
-

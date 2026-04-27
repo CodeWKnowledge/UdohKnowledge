@@ -1,6 +1,1 @@
-# Exclude system files from SPA fallback
-/sitemap.xml /api/sitemap 200
-/robots.txt /robots.txt 200
-
-# Catch-all for SPA
-/* /index.html 200
+/*  /index.html  200

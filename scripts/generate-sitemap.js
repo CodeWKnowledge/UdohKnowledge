@@ -1,37 +1,26 @@
 import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
-import path from 'path';
 import dotenv from 'dotenv';
 
-// Load environment variables
 dotenv.config();
 
-const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 const baseUrl = 'https://knowledgeudoh.click';
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error('Sitemap Generation Error: Supabase credentials missing in environment.');
+  console.error('Missing Supabase credentials in .env');
   process.exit(1);
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function generateSitemap() {
-  console.log('Generating sitemap...');
-
   try {
-    const [projectsRes, postsRes] = await Promise.all([
-      supabase.from('projects').select('slug, updated_at, created_at').eq('status', 'published'),
-      supabase.from('posts').select('slug, updated_at, published_at, created_at').eq('status', 'published')
-    ]);
-
-    if (projectsRes.error || postsRes.error) {
-      throw new Error(`Supabase Error: ${JSON.stringify(projectsRes.error || postsRes.error)}`);
-    }
-
-    const projects = projectsRes.data || [];
-    const posts = postsRes.data || [];
+    console.log('Fetching projects and posts from Supabase...');
+    
+    const { data: projects } = await supabase.from('projects').select('id, slug, updated_at');
+    const { data: posts } = await supabase.from('posts').select('slug, published_at');
 
     const staticRoutes = [
       { loc: '', priority: '1.0', changefreq: 'weekly' },
@@ -53,22 +42,21 @@ async function generateSitemap() {
     });
 
     // Add Projects
-    projects.forEach(project => {
-      const lastModDate = project.updated_at || project.created_at || new Date().toISOString();
+    projects?.forEach(project => {
+      const identifier = project.slug || project.id;
       xml += `  <url>
-    <loc>${baseUrl}/project/${project.slug}/</loc>
-    <lastmod>${new Date(lastModDate).toISOString().split('T')[0]}</lastmod>
+    <loc>${baseUrl}/project/${identifier}/</loc>
+    <lastmod>${new Date(project.updated_at || Date.now()).toISOString().split('T')[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>\n`;
     });
 
     // Add Posts
-    posts.forEach(post => {
-      const lastModDate = post.updated_at || post.published_at || post.created_at || new Date().toISOString();
+    posts?.forEach(post => {
       xml += `  <url>
     <loc>${baseUrl}/blog/${post.slug}/</loc>
-    <lastmod>${new Date(lastModDate).toISOString().split('T')[0]}</lastmod>
+    <lastmod>${new Date(post.published_at || Date.now()).toISOString().split('T')[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>\n`;
@@ -76,20 +64,10 @@ async function generateSitemap() {
 
     xml += `</urlset>`;
 
-    // Ensure public directory exists
-    const publicDir = path.resolve(process.cwd(), 'public');
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir);
-    }
-
-    const sitemapPath = path.join(publicDir, 'sitemap.xml');
-    fs.writeFileSync(sitemapPath, xml);
-    
-    console.log(`Successfully generated sitemap with ${projects.length} projects and ${posts.length} posts at ${sitemapPath}`);
-
+    fs.writeFileSync('./public/sitemap.xml', xml);
+    console.log('Sitemap generated successfully at ./public/sitemap.xml');
   } catch (error) {
-    console.error('Failed to generate sitemap:', error);
-    process.exit(1);
+    console.error('Error generating sitemap:', error);
   }
 }
 
