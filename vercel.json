@@ -1,21 +1,25 @@
 {
   "trailingSlash": false,
-  "cleanUrls": false,
+  "cleanUrls": true,
 
- "rewrites": [
-  {
-    "source": "/sitemap.xml",
-    "destination": "/api/sitemap"
-  },
-  {
-    "source": "/robots.txt",
-    "destination": "/robots.txt"
-  },
-  {
-    "source": "/((?!.*\\.).*)",
-    "destination": "/index.html"
-  }
-],
+  "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    },
+    {
+      "source": "/((?!api|sitemap\\.xml|robots\\.txt|.*\\..*).*)",
+      "destination": "/index.html"
+    }
+  ],
   "headers": [
 
     {

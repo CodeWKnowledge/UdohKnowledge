@@ -8,6 +8,16 @@
 -- Enable UUID extension
 create extension if not exists "uuid-ossp";
 
+-- Function to handle updated_at
+create or replace function public.handle_updated_at()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+
 -- 1. TABLES SETUP
 -- ------------------------------------------
 
@@ -34,8 +44,16 @@ create table if not exists public.projects (
   category text[] default '{}',
   featured boolean default false,
   status text default 'published',
+  slug text unique,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+-- Trigger for projects updated_at
+drop trigger if exists on_projects_updated on public.projects;
+create trigger on_projects_updated
+  before update on public.projects
+  for each row execute procedure public.handle_updated_at();
 
 -- Settings Table (Global Configuration)
 create table if not exists public.settings (
@@ -76,8 +94,15 @@ create table if not exists public.posts (
   read_time text,
   status text default 'published',
   published_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+-- Trigger for posts updated_at
+drop trigger if exists on_posts_updated on public.posts;
+create trigger on_posts_updated
+  before update on public.posts
+  for each row execute procedure public.handle_updated_at();
 
 -- ------------------------------------------
 -- 2. SCHEMA PATCHING (For Existing Databases)
@@ -108,12 +133,29 @@ begin
     alter table public.projects alter column category type text[] using array[category];
   end if;
   
+  -- Add status to projects
   if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'status') then
     alter table public.projects add column status text default 'published';
   end if;
 
+  -- Add status to posts
   if not exists (select from pg_attribute where attrelid = 'public.posts'::regclass and attname = 'status') then
     alter table public.posts add column status text default 'published';
+  end if;
+
+  -- Add slug to projects
+  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'slug') then
+    alter table public.projects add column slug text unique;
+  end if;
+
+  -- Add updated_at to projects
+  if not exists (select from pg_attribute where attrelid = 'public.projects'::regclass and attname = 'updated_at') then
+    alter table public.projects add column updated_at timestamp with time zone default timezone('utc'::text, now()) not null;
+  end if;
+
+  -- Add updated_at to posts
+  if not exists (select from pg_attribute where attrelid = 'public.posts'::regclass and attname = 'updated_at') then
+    alter table public.posts add column updated_at timestamp with time zone default timezone('utc'::text, now()) not null;
   end if;
 end $$;
 
@@ -215,7 +257,54 @@ where not exists (select 1 from public.settings);
 
 -- Example Project
 insert into public.projects (title, description, details, technologies, featured, category)
-values ('FlowSpy Monitoring', 'Cloud visibility platform', 'Built for high-scale metrics.', '{"React", "Node.js"}', true, 'Web App')
+values ('FlowSpy Monitoring', 'Cloud visibility platform', 'Built for high-scale metrics.', '{"React", "Node.js"}', true, '{"Web App"}')
 on conflict do nothing;
 
 NOTIFY pgrst, 'reload schema';
+
+-- ==========================================
+-- QUICK PATCH: SITEMAP & MAINTENANCE
+-- ==========================================
+-- Run the following block in the Supabase SQL Editor if you need 
+-- to manually fix missing columns or triggers.
+
+-- 1. Add missing columns
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS status text DEFAULT 'published';
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS slug text;
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS updated_at timestamp with time zone DEFAULT now();
+
+ALTER TABLE public.posts ADD COLUMN IF NOT EXISTS status text DEFAULT 'published';
+ALTER TABLE public.posts ADD COLUMN IF NOT EXISTS updated_at timestamp with time zone DEFAULT now();
+
+-- 2. Ensure slugs are unique for SEO
+-- Note: This might fail if you have duplicate null/empty slugs already.
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'projects_slug_key') THEN
+        ALTER TABLE public.projects ADD CONSTRAINT projects_slug_key UNIQUE (slug);
+    END IF;
+END $$;
+
+-- 3. Add automatic updated_at trigger logic
+CREATE OR REPLACE FUNCTION public.handle_updated_at()
+RETURNS trigger AS $$
+BEGIN
+  new.updated_at = now();
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Apply triggers
+DROP TRIGGER IF EXISTS on_projects_updated ON public.projects;
+CREATE TRIGGER on_projects_updated BEFORE UPDATE ON public.projects
+FOR EACH ROW EXECUTE PROCEDURE public.handle_updated_at();
+
+DROP TRIGGER IF EXISTS on_posts_updated ON public.posts;
+CREATE TRIGGER on_posts_updated BEFORE UPDATE ON public.posts
+FOR EACH ROW EXECUTE PROCEDURE public.handle_updated_at();
+
+-- 4. Example Project Fix (Corrected array syntax for category)
+INSERT INTO public.projects (title, description, details, technologies, featured, category)
+VALUES ('FlowSpy Monitoring', 'Cloud visibility platform', 'Built for high-scale metrics.', '{"React", "Node.js"}', true, '{"Web App"}')
+ON CONFLICT DO NOTHING;
+

@@ -93,11 +93,11 @@ export default async function handler(req, res) {
     // 5. Set Headers (STRICT ENFORCEMENT)
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Robots-Tag', 'noindex, follow'); // Keep sitemap out of search results but follow links
     res.setHeader('Cache-Control', 'public, max-age=3600');
     
-    // Ensure NO Content-Disposition is set. 
-    // We explicitly avoid setting it. 
-    // If the platform injects it, setting a correct Content-Type often bypasses it for non-file extensions.
+    // Explicitly prevent Content-Disposition which can cause 'Couldn't fetch' issues if set to 'attachment'
+    res.setHeader('Content-Disposition', 'inline');
     
     // 6. Send Response
     return res.status(200).send(xml);
@@ -107,8 +107,8 @@ export default async function handler(req, res) {
     
     // 7. Failsafe: Return valid empty sitemap on any error
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('X-Robots-Tag', 'noindex, follow');
+    res.setHeader('Content-Disposition', 'inline');
     return res.status(200).send(emptySitemap);
   }
 }
