@@ -1,33 +1,32 @@
 import { createClient } from '@supabase/supabase-js';
 
 export default async function handler(req, res) {
-  // 1. Initialize Supabase Client
-  const supabaseUrl = process.env.VITE_SUPABASE_URL;
-  const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
-  const baseUrl = 'https://knowledgeudoh.click';
+  try {
+    // 1. Initialize Supabase Client
+    const supabaseUrl = process.env.VITE_SUPABASE_URL;
+    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+    const baseUrl = 'https://knowledgeudoh.click';
 
-  const supabase = createClient(supabaseUrl, supabaseKey);
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error('Missing Supabase credentials');
+    }
 
-  // 2. Default XML (Empty Sitemap) for Failsafe
-  const emptySitemap = `<?xml version="1.0" encoding="UTF-8"?>
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // 2. Default XML (Empty Sitemap) for Failsafe
+    const emptySitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`;
 
-  try {
     // 3. Fetch Data with Strict Rules
-    // Only 'published' status, deterministic ordering
     const [projectsRes, postsRes] = await Promise.all([
       supabase
         .from('projects')
-        .select('id, slug, updated_at, created_at')
-        .order('updated_at', { ascending: false }),
+        .select('id, slug, updated_at'),
       supabase
         .from('posts')
-        .select('slug, published_at, updated_at, created_at')
-        .order('updated_at', { ascending: false })
+        .select('slug, published_at')
     ]);
 
-    // Note: If columns like 'status' are missing, Supabase might return an error.
-    // The catch block will handle this and return the empty sitemap as requested.
     if (projectsRes.error || postsRes.error) {
        console.error('Supabase Error:', projectsRes.error || postsRes.error);
        throw new Error('Supabase fetch failed');
@@ -59,7 +58,7 @@ export default async function handler(req, res) {
     // Add Projects
     projects.forEach(project => {
       const identifier = project.slug || project.id;
-      const lastModDate = project.updated_at || project.created_at || new Date().toISOString();
+      const lastModDate = project.updated_at || new Date().toISOString();
       xml += `  <url>
     <loc>${baseUrl}/project/${identifier}/</loc>
     <lastmod>${new Date(lastModDate).toISOString().split('T')[0]}</lastmod>
@@ -70,7 +69,7 @@ export default async function handler(req, res) {
 
     // Add Posts
     posts.forEach(post => {
-      const lastModDate = post.updated_at || post.published_at || post.created_at || new Date().toISOString();
+      const lastModDate = post.published_at || new Date().toISOString();
       xml += `  <url>
     <loc>${baseUrl}/blog/${post.slug}/</loc>
     <lastmod>${new Date(lastModDate).toISOString().split('T')[0]}</lastmod>
