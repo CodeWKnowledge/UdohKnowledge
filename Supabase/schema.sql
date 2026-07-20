@@ -244,20 +244,20 @@ create policy "Public can upload avatars" on storage.objects for insert with che
 -- ------------------------------------------
 
 insert into public.content (key, value) values
-  ('hero_title', 'Frontend Developer & UI Designer'),
-  ('hero_description1', 'Building high-performance websites for businesses & brands.'),
-  ('hero_description2', 'Crafting fast, scalable, and beautiful digital solutions that drive growth.'),
-  ('services_header_title', 'Business Solutions.'),
-  ('service1_title', 'Business Website Development'),
-  ('service1_description', 'Custom-built, high-performance websites tailored to your business goals.'),
-  ('service2_title', 'E-commerce Solutions'),
-  ('service2_description', 'Seamless online shopping experiences with secure payment integration.'),
-  ('service3_title', 'Personal Website Development'),
-  ('service3_description', 'Custom-built websites tailored to your personal goals.'),
-  ('service4_title', 'Digital Agency Services'),
-  ('service4_description', 'End-to-end support from SEO strategy to web maintenance.'),
+  ('hero_title', 'Software Developer & UI Designer'),
+  ('hero_description1', 'I build exceptional digital experiences that live at the intersection of design and engineering.'),
+  ('hero_description2', 'My focus is on creating fast, scalable, and visually stunning web applications that elevate your brand and drive results.'),
+  ('services_header_title', 'Frontend & UI/UX Services.'),
+  ('service1_title', 'Frontend Architecture'),
+  ('service1_description', 'Scalable component design, state management, and modern React patterns that grow with your product.'),
+  ('service2_title', 'UI/UX Engineering'),
+  ('service2_description', 'Translating beautiful designs into pixel-perfect, accessible, and responsive user interfaces.'),
+  ('service3_title', 'Performance Optimization'),
+  ('service3_description', 'Auditing and optimizing web apps for speed, SEO, and Core Web Vitals to deliver lightning-fast experiences.'),
+  ('service4_title', 'Interactive Prototyping'),
+  ('service4_description', 'Building high-fidelity interactive prototypes with complex animations to test user flows before full production.'),
   ('skills_list', 'React.js, Tailwind CSS, Next.js, TypeScript, HTML, CSS, JavaScript, Responsive Design, Framer Motion, Shadcn UI'),
-  ('experience_list', '[{"date": "2024", "role": "Freelance Developer", "company": "Self-Employed", "current": true}, {"date": "2026", "role": "Founder & CEO", "company": "Avera Tech Solutions", "current": true}]'),
+  ('experience_list', '[{"date": "2024", "role": "Freelance Developer", "company": "Self-Employed", "current": true}, {"date": "2026", "role": "Software Engineer", "company": "Avera Tech Solutions", "current": true}]'),
   ('about_text1', 'I''m Knowledge Udoh, a Developer passionate about crafting digital experiences that resonate.')
 on conflict (key) do update set value = excluded.value;
 

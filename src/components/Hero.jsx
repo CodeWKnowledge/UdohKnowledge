@@ -19,17 +19,17 @@ const Hero = () => {
         <section id="hero" className="md:min-h-screen min-h-[50vh] flex items-center relative overflow-hidden pt-20">
             {/* Prismatic Aurora Burst - Multi-layered Purple Gradient Background */}
             <div
-                className="absolute inset-0 z-0 bg-black"
+                className="absolute inset-0 z-0 bg-theme-bg"
                 style={{
                     background: `
-                        radial-gradient(ellipse 120% 80% at 70% 20%, rgba(139, 92, 246, 0.2), transparent 50%),
-                        radial-gradient(ellipse 100% 60% at 30% 10%, rgba(63, 6, 88, 0.15), transparent 60%),
-                        radial-gradient(ellipse 90% 70% at 50% 0%, rgba(56, 2, 77, 0.38), transparent 65%),
-                        radial-gradient(ellipse 110% 50% at 80% 30%, rgba(49, 6, 91, 0.12), transparent 40%),
-                        radial-gradient(ellipse 80% 50% at 15% 75%, rgba(59, 4, 70, 0.15), transparent 50%),
-                        radial-gradient(ellipse 100% 70% at 85% 85%, rgba(54, 7, 62, 0.18), transparent 60%),
-                        radial-gradient(ellipse 70% 60% at 40% 90%, rgba(60, 6, 80, 0.15), transparent 50%),
-                        #000000
+                        radial-gradient(ellipse 120% 80% at 70% 20%, rgba(139, 92, 246, 0.1), transparent 50%),
+                        radial-gradient(ellipse 100% 60% at 30% 10%, rgba(63, 6, 88, 0.08), transparent 60%),
+                        radial-gradient(ellipse 90% 70% at 50% 0%, rgba(56, 2, 77, 0.15), transparent 65%),
+                        radial-gradient(ellipse 110% 50% at 80% 30%, rgba(49, 6, 91, 0.06), transparent 40%),
+                        radial-gradient(ellipse 80% 50% at 15% 75%, rgba(59, 4, 70, 0.08), transparent 50%),
+                        radial-gradient(ellipse 100% 70% at 85% 85%, rgba(54, 7, 62, 0.1), transparent 60%),
+                        radial-gradient(ellipse 70% 60% at 40% 90%, rgba(60, 6, 80, 0.08), transparent 50%),
+                        var(--color-theme-bg)
                     `,
                 }}
             />
@@ -59,21 +59,21 @@ const Hero = () => {
                                 transition={{ ...fadeInUp.transition, delay: 0.1 }}
                                 className="text-2xl md:text-3xl font-logo font-bold mb-3 text-theme-muted text-center"
                             >
-                                Web Agency & Frontend Engineer
+                                Software Developer & UI Designer
                             </motion.h2>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
                                 className="text-lg md:text-xl mb-2 text-theme text-center leading-relaxed"
                             >
-                                {content?.hero_description1 || "Engineering custom websites for businesses globally and in Nigeria."}
+                                {content?.hero_description1 || "I build exceptional digital experiences that live at the intersection of design and engineering."}
                             </motion.p>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.3 }}
                                 className="text-lg md:text-xl mb-8 text-theme text-center"
                             >
-                                {content?.hero_description2 || "We build scalable, high-performance web agency solutions, ecommerce platforms, and digital products that drive massive revenue."}
+                                {content?.hero_description2 || "My focus is on creating fast, scalable, and visually stunning web applications that elevate your brand and drive results."}
                             </motion.p>
                         </div>
 
@@ -90,7 +90,7 @@ const Hero = () => {
                             </Link>
                             <Link
                                 to="/#projects"
-                                className="px-8 py-4 border border-white/20 text-white font-bold tracking-widest uppercase text-xs !rounded-xl hover:bg-white/10 transition-all whitespace-nowrap"
+                                className="px-8 py-4 border border-theme-border text-theme font-bold tracking-widest uppercase text-xs !rounded-xl hover:bg-white/5 transition-all whitespace-nowrap"
                             >
                                 View Portfolio
                             </Link>

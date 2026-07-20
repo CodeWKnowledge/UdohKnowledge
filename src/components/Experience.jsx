@@ -53,12 +53,12 @@ const Experience = () => {
                         className="flex items-center gap-4 mb-16"
                     >
                         <div className="w-12 h-px bg-primary/30"></div>
-                        <h2 className="text-xl font-bold text-white/90 tracking-widest uppercase font-heading">Experience</h2>
+                        <h2 className="text-xl font-bold text-theme tracking-widest uppercase font-heading">Experience</h2>
                     </motion.div>
 
                     <div className="relative">
                         {/* Thin vertical line */}
-                        <div className="absolute left-0 top-2 bottom-2 w-px bg-white/5"></div>
+                        <div className="absolute left-0 top-2 bottom-2 w-px bg-theme-border"></div>
 
                         <motion.div
                             variants={containerVariants}
@@ -75,11 +75,11 @@ const Experience = () => {
                                 >
                                     <article>
                                         {/* Dot Node */}
-                                        <div className="absolute left-[-4px] top-2 w-2 h-2 rounded-full bg-white/10 group-hover:bg-primary group-hover:scale-125 transition-all duration-300 border border-theme"></div>
+                                        <div className="absolute left-[-4px] top-2 w-2 h-2 rounded-full bg-theme-border group-hover:bg-primary group-hover:scale-125 transition-all duration-300 border border-theme"></div>
 
                                         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
                                             <div className="flex flex-col">
-                                                <h3 className="text-xl font-bold text-white group-hover:text-secondary transition-colors duration-300">
+                                                <h3 className="text-xl font-bold text-theme group-hover:text-secondary transition-colors duration-300">
                                                     {item.role}
                                                 </h3>
                                                 <div className="flex items-center gap-2 mt-1">
@@ -91,7 +91,7 @@ const Experience = () => {
                                             </div>
 
                                             <div className="flex items-center gap-3 shrink-0 mt-2 sm:mt-0">
-                                                <time dateTime={item.date} className="text-white/20 text-sm font-bold tracking-tighter uppercase">
+                                                <time dateTime={item.date} className="text-theme-muted text-sm font-bold tracking-tighter uppercase">
                                                     {item.date}
                                                 </time>
                                                 {item.current && (

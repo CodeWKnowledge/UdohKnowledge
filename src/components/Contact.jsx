@@ -66,8 +66,8 @@ const Contact = () => {
                         className="text-center mb-16"
                     >
                         <span className="text-secondary accent-font text-lg mb-2 block">Ready to talk?</span>
-                        <h2 className="text-5xl md:text-6xl font-bold mb-6 font-heading text-white italic">Get In Touch</h2>
-                        <p className="text-base md:text-lg text-theme/50 font-light leading-relaxed">
+                        <h2 className="text-5xl md:text-6xl font-bold mb-6 font-heading text-theme italic">Get In Touch</h2>
+                        <p className="text-base md:text-lg text-theme-muted font-light leading-relaxed">
                             Have a vision you want to bring to life? Let's collaborate and build something extraordinary together.
                         </p>
                     </motion.div>
@@ -88,7 +88,7 @@ const Contact = () => {
                                     name="name"
                                     placeholder="Name"
                                     autoComplete="name"
-                                    className="w-full bg-white/[0.02] border border-white/5 p-5 rounded-2xl outline-none focus:border-primary/40 focus:bg-white/[0.05] transition-all text-white placeholder:text-theme/20 shadow-inner"
+                                    className="w-full bg-card/50 border border-theme-border p-5 rounded-2xl outline-none focus:border-primary/40 focus:bg-card transition-all text-theme placeholder:text-theme/20 shadow-inner"
                                     required
                                 />
                                 <input
@@ -96,7 +96,7 @@ const Contact = () => {
                                     name="email"
                                     placeholder="Email"
                                     autoComplete="email"
-                                    className="w-full bg-white/[0.02] border border-white/5 p-5 rounded-2xl outline-none focus:border-primary/40 focus:bg-white/[0.05] transition-all text-white placeholder:text-theme/20 shadow-inner"
+                                    className="w-full bg-card/50 border border-theme-border p-5 rounded-2xl outline-none focus:border-primary/40 focus:bg-card transition-all text-theme placeholder:text-theme/20 shadow-inner"
                                     required
                                 />
                             </div>
@@ -104,7 +104,7 @@ const Contact = () => {
                                 name="message"
                                 rows="5"
                                 placeholder="Tell me about your project..."
-                                className="w-full bg-white/[0.02] border border-white/5 p-5 rounded-2xl outline-none focus:border-primary/40 focus:bg-white/[0.05] transition-all text-white placeholder:text-theme/20 resize-none shadow-inner"
+                                className="w-full bg-card/50 border border-theme-border p-5 rounded-2xl outline-none focus:border-primary/40 focus:bg-card transition-all text-theme placeholder:text-theme/20 resize-none shadow-inner"
                                 required
                             ></textarea>
 
@@ -113,7 +113,7 @@ const Contact = () => {
                                     type="submit"
                                     disabled={status === "sending"}
                                     className={`group relative px-12 py-4 font-bold rounded-2xl transition-all overflow-hidden active:scale-[0.98] shadow-lg flex items-center justify-center gap-3 w-full md:w-auto
-                                        ${status === "sending" ? "bg-white/10 text-white/50 cursor-not-allowed" : "bg-primary text-white shadow-primary/20 hover:scale-[1.02]"}`}
+                                        ${status === "sending" ? "bg-card text-theme-muted cursor-not-allowed" : "bg-primary text-white shadow-primary/20 hover:scale-[1.02]"}`}
                                 >
                                     <span className="relative z-10">
                                         {status === "sending" ? "Sending..." : "Send Message"}
@@ -146,7 +146,7 @@ const Contact = () => {
                         </form>
 
                         {/* Ultra-Minimalist Contact Footer */}
-                        <div className="mt-20 pt-10 border-t border-white/5 flex flex-wrap justify-center gap-x-10 gap-y-4">
+                        <div className="mt-20 pt-10 border-t border-theme-border flex flex-wrap justify-center gap-x-10 gap-y-4">
                             {[
                                 { icon: <Mail01Icon size={16} className="text-theme-muted"/>, content: settings?.social_links?.contact_email || "udohknowledge5@gmail.com", link: `mailto:${settings?.social_links?.contact_email || "udohknowledge5@gmail.com"}` },
                                 { icon: <CallIcon size={16} className="text-theme-muted"/>, content: settings?.social_links?.contact_phone || "+234 703 754 1754", link: `tel:${settings?.social_links?.contact_phone?.replace(/\s/g, '') || "+2347037541754"}` },
@@ -155,7 +155,7 @@ const Contact = () => {
                                 <a
                                     href={item.link}
                                     key={idx}
-                                    className="flex items-center gap-2.5 text-theme/30 hover:text-primary transition-colors text-[13px] font-medium tracking-wide"
+                                    className="flex items-center gap-2.5 text-theme-muted hover:text-primary transition-colors text-[13px] font-medium tracking-wide"
                                 >
                                     <span className="text-primary/50">{item.icon}</span>
                                     <span>{item.content}</span>

@@ -46,7 +46,7 @@ const Services = () => {
     };
 
     return (
-        <section id="services" className="py-24 bg-[#05010a] relative overflow-hidden">
+        <section id="services" className="py-24 bg-theme-bg relative overflow-hidden">
             {/* Prismatic decoration */}
             <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-primary/2 rounded-full blur-[100px] -translate-y-1/2 -z-10"></div>
             
@@ -57,8 +57,8 @@ const Services = () => {
                             <span className="w-8 h-[1px] bg-primary/40"></span>
                             <span className="text-primary font-bold uppercase tracking-[0.2em] text-[9px]">Capabilities</span>
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-bold text-white font-heading leading-tight italic">
-                            {content?.services_header_title || "Web Design & Development Services."}
+                        <h2 className="text-3xl md:text-5xl font-bold text-theme font-heading leading-tight italic">
+                            {content?.services_header_title || "Frontend & UI/UX Services."}
                         </h2>
                     </motion.div>
                 </div>
@@ -71,24 +71,24 @@ const Services = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: idx * 0.1 }}
-                            className="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all duration-500 relative overflow-hidden"
+                            className="group p-6 rounded-2xl bg-card border border-theme-border hover:border-primary/20 transition-all duration-500 relative overflow-hidden"
                         >
                             <div className="flex items-center gap-4 mb-4">
-                                <div className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:border-primary/30 transition-colors">
+                                <div className="p-3 rounded-xl bg-theme-border/50 border border-theme-border group-hover:border-primary/30 transition-colors">
                                     {React.cloneElement(service.icon, { size: 24 })}
                                 </div>
-                                <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">
+                                <h3 className="text-xl font-bold text-theme group-hover:text-primary transition-colors">
                                     {service.title}
                                 </h3>
                             </div>
 
-                            <p className="text-white/40 leading-relaxed font-light text-sm mb-4">
+                            <p className="text-theme-muted leading-relaxed font-light text-sm mb-4">
                                 {service.description}
                             </p>
 
                             <div className="flex gap-3">
                                 {service.keywords.slice(0, 2).map((word, i) => (
-                                    <span key={i} className="text-[9px] text-white/10 uppercase tracking-[0.1em] font-medium group-hover:text-white/30 transition-colors">
+                                    <span key={i} className="text-[9px] text-theme-muted uppercase tracking-[0.1em] font-medium group-hover:text-theme/70 transition-colors">
                                         • {word}
                                     </span>
                                 ))}

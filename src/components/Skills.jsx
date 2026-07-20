@@ -28,7 +28,7 @@ const Skills = () => {
         <section id="skills" className="py-24 bg-accent/30 overflow-hidden border-y border-theme-border/20">
             <div className="container mx-auto px-6 mb-16 text-center">
                 <motion.div {...fadeInUp}>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 font-heading text-white">Core Competencies</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4 font-heading text-theme">Core Competencies</h2>
                     <div className="w-24 h-1.5 bg-primary mx-auto rounded-full mb-8"></div>
                     <p className="max-w-2xl mx-auto text-lg text-theme opacity-70">
                         A dynamic showcase of my technical toolkit and professional strengths.

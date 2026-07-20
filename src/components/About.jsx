@@ -145,7 +145,7 @@ const About = () => {
                         <motion.h2
                             {...fadeInUp}
                             transition={{ ...fadeInUp.transition, delay: 0.1 }}
-                            className="text-4xl md:text-6xl font-bold text-white mb-10 font-heading leading-tight"
+                            className="text-4xl md:text-6xl font-bold text-theme mb-10 font-heading leading-tight"
                         >
                             Curiosity-driven <br />
                             <span className="text-primary italic">innovation.</span>
@@ -155,7 +155,7 @@ const About = () => {
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
-                                className="text-xl text-white/90 leading-relaxed font-heading"
+                                className="text-xl text-theme leading-relaxed font-heading"
                             >
                                 {content?.about_text1 || "I'm Knowledge Udoh, a Developer passionate about crafting digital experiences that resonate."}
                             </motion.p>
@@ -189,16 +189,16 @@ const About = () => {
                             className="mt-12 grid grid-cols-3 gap-6"
                         >
                             <div className="flex flex-col">
-                                <span className="text-2xl font-bold text-white">2+</span>
-                                <span className="text-[9px] text-theme/30 uppercase tracking-[0.2em] font-bold">Years Experience</span>
+                                <span className="text-2xl font-bold text-theme">2+</span>
+                                <span className="text-[9px] text-theme/40 uppercase tracking-[0.2em] font-bold">Years Experience</span>
                             </div>
-                            <div className="flex flex-col border-l border-white/5 pl-6">
-                                <span className="text-2xl font-bold text-white">15+</span>
-                                <span className="text-[9px] text-theme/30 uppercase tracking-[0.2em] font-bold">Projects Built</span>
+                            <div className="flex flex-col border-l border-theme-border pl-6">
+                                <span className="text-2xl font-bold text-theme">15+</span>
+                                <span className="text-[9px] text-theme/40 uppercase tracking-[0.2em] font-bold">Projects Built</span>
                             </div>
-                            <div className="flex flex-col border-l border-white/5 pl-6">
-                                <span className="text-2xl font-bold text-white">∞</span>
-                                <span className="text-[9px] text-theme/30 uppercase tracking-[0.2em] font-bold">Ideas Explored</span>
+                            <div className="flex flex-col border-l border-theme-border pl-6">
+                                <span className="text-2xl font-bold text-theme">∞</span>
+                                <span className="text-[9px] text-theme/40 uppercase tracking-[0.2em] font-bold">Ideas Explored</span>
                             </div>
                         </motion.div>
                     </div>

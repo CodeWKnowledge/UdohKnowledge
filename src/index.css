@@ -28,16 +28,16 @@
 /* 2. Tailwind Theme Configuration */
 @theme {
   /* Colors */
-  --color-primary: #4b0c5e;
-  /* Deeper Purple */
+  --color-primary: #8B5CF6;
+  /* Brighter Purple */
   --color-secondary: #A855F7;
   /* Mid Purple */
-  --color-accent: #11061d;
-  --color-card: #15082a;
-  --color-theme-bg: #080110;
-  --color-theme-text: #f8fafc;
-  --color-theme-border: #2e1065;
-  --color-theme-muted: #6b21a8;
+  --color-accent: #252538;
+  --color-card: #1f2335;
+  --color-theme-bg: #16161e;
+  --color-theme-text: #e2e8f0;
+  --color-theme-border: rgba(255, 255, 255, 0.1);
+  --color-theme-muted: #94a3b8;
 
   /* Fonts */
   --font-logo: "CaveatBrush", cursive;
