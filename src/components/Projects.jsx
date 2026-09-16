@@ -13,7 +13,7 @@ const Projects = ({ limit = 3 }) => {
     // Fallback if Supabase has no projects
     const dataToUse = projects && projects.length > 0 ? projects : staticProjects;
 
-    const categories = ["all", "E-commerce", "Web apps", "Dashboards", "Sales"];
+    const categories = ["all", "E-commerce", "Web apps", "Dashboards"];
 
     // Filter projects based on active category
     const filteredProjects = activeCategory === "all" 
@@ -76,7 +76,7 @@ const Projects = ({ limit = 3 }) => {
                 >
                     <div className="max-w-full overflow-x-auto pb-4 hide-scrollbar">
                         <div className="inline-flex bg-accent/50 backdrop-blur-md p-1 rounded-xl border border-white/5">
-                            {["all", "E-commerce", "Web apps", "Dashboards", "Sales"].map((cat) => (
+                            {["all", "E-commerce", "Web apps", "Dashboards"].map((cat) => (
                                 <button
                                     key={cat}
                                     onClick={() => setActiveCategory(cat)}

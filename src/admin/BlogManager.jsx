@@ -223,8 +223,8 @@ const BlogManager = () => {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-[#0A0A0A] md:border border-white/10 md:rounded-2xl w-full h-full md:h-[95vh] max-w-5xl overflow-hidden flex flex-col shadow-2xl">
             <div className="p-6 border-b border-white/10 flex justify-between items-center">
               <h3 className="text-xl font-bold">{editingPost ? 'Edit Post' : 'Create Article'}</h3>
               <button onClick={() => setShowModal(false)} className="p-2 text-white/40 hover:text-white rounded-lg transition-colors"><Cancel01Icon size={20} /></button>
@@ -282,9 +282,9 @@ const BlogManager = () => {
                   </div>
                 </div>
 
-                <div className="space-y-4 min-h-[300px] p-4 rounded-2xl bg-white/[0.01] border border-white/5">
+                <div className="space-y-6 min-h-[400px] p-2 md:p-8 rounded-2xl bg-[#050505] border border-white/5">
                   {contentBlocks.map((block, index) => (
-                    <div key={index} className="group relative bg-[#0D0D0D] border border-white/5 rounded-xl p-4 hover:border-white/20 transition-all">
+                    <div key={index} className="group relative transition-all">
                       <div className="absolute -left-12 top-1/2 -translate-y-1/2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button type="button" onClick={() => handleMoveBlock(index, 'up')} className="p-1.5 hover:text-primary transition-colors"><ArrowUp01Icon size={16}/></button>
                         <button type="button" onClick={() => handleMoveBlock(index, 'down')} className="p-1.5 hover:text-primary transition-colors"><ArrowDown01Icon size={16}/></button>
@@ -301,11 +301,11 @@ const BlogManager = () => {
                         <div className="flex-1">
                           {block.type === 'image' ? (
                             <div className="flex gap-4 items-center">
-                              <div className="w-20 h-20 rounded-lg bg-black flex items-center justify-center border border-white/5 overflow-hidden">
+                              <div className="w-20 h-20 rounded-lg bg-black flex items-center justify-center border border-white/5 overflow-hidden shadow-lg">
                                 {block.value ? <img src={block.value} className="w-full h-full object-cover"/> : <Image01Icon size={20} className="text-white/20"/>}
                               </div>
                               <div className="flex-1 space-y-2">
-                                <input value={block.value} onChange={(e) => handleUpdateBlock(index, e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/60" placeholder="Image URL..."/>
+                                <input value={block.value} onChange={(e) => handleUpdateBlock(index, e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white/60 focus:border-primary outline-none transition-colors" placeholder="Image URL..."/>
                                 <label className="inline-block text-[9px] font-bold uppercase tracking-widest text-primary cursor-pointer hover:underline">
                                   Upload
                                   <input type="file" className="hidden" accept="image/*" onChange={(e) => handleBlockImageUpload(e, index)}/>
@@ -316,14 +316,14 @@ const BlogManager = () => {
                             <textarea 
                               value={block.value} 
                               onChange={(e) => handleUpdateBlock(index, e.target.value)} 
-                              rows={block.type === 'paragraph' ? 4 : 1}
-                              className={`w-full bg-transparent border-none outline-none resize-none text-white ${block.type === 'heading' ? 'text-xl font-bold font-logo' : block.type === 'subheading' ? 'text-lg font-bold font-logo text-secondary' : 'text-sm'}`}
+                              rows={block.type === 'paragraph' ? 3 : 1}
+                              className={`w-full bg-transparent border-none outline-none resize-none text-white focus:ring-0 ${block.type === 'heading' ? 'text-2xl font-bold font-logo' : block.type === 'subheading' ? 'text-xl font-bold font-logo text-secondary' : 'text-base leading-relaxed text-white/80'}`}
                               placeholder={`Type your ${block.type} component...`}
                             />
                           )}
                         </div>
 
-                        <button type="button" onClick={() => handleRemoveBlock(index)} className="p-2 text-white/10 hover:text-red-500 transition-colors"><Delete01Icon size={16}/></button>
+                        <button type="button" onClick={() => handleRemoveBlock(index)} className="p-2 text-white/10 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"><Delete01Icon size={16}/></button>
                       </div>
                     </div>
                   ))}

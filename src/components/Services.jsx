@@ -13,28 +13,28 @@ const Services = () => {
     const { content } = useSupabase();
     const services = [
         {
-            title: content?.service1_title || "Business Website Development",
-            description: content?.service1_description || "Custom-built, high-performance websites tailored to your business goals. Scalable architecture that grows with your brand.",
+            title: content?.service1_title || "Frontend Development",
+            description: content?.service1_description || "Custom-built, high-performance web applications using modern frameworks like React and Next.js for optimal user experience.",
             icon: <WebDesign01Icon className="text-primary" />,
-            keywords: ["Web Agency", "Custom Development"]
+            keywords: ["React.js", "Next.js", "Performance"]
         },
         {
-            title: content?.service2_title || "E-commerce Solutions",
-            description: content?.service2_description || "Seamless online shopping experiences with secure payment integration and intuitive product management systems.",
+            title: content?.service2_title || "Full-Stack Architecture",
+            description: content?.service2_description || "Robust end-to-end solutions integrating scalable frontends with powerful backend services and APIs.",
             icon: <SoftwareIcon className="text-secondary" />,
-            keywords: ["Online Store", "Secure Payments"]
+            keywords: ["API Integration", "Supabase", "Scalable"]
         },
         {
-            title: content?.service3_title || "Personal Website Development",
-            description: content?.service3_description || "Custom-built, high-performance websites tailored to your personal goals. Scalable architecture that grows with your brand.",
+            title: content?.service3_title || "Mobile App Development",
+            description: content?.service3_description || "Creating seamless, high-performance mobile applications for both iOS and Android using React Native and other mobile app development technologies.",
             icon: <TouchInteraction02Icon className="text-primary" />,
-            keywords: ["Personal Site", "Brand Identity"]
+            keywords: ["React Native", "Flutter", "Mobile Development"]
         },
         {
-            title: content?.service4_title || "Digital Agency Services",
-            description: content?.service4_description || "End-to-end support from SEO strategy to web maintenance. We ensure your business is always visible and high-performing.",
+            title: content?.service4_title || "Backend Development",
+            description: content?.service4_description || "Developing robust and scalable backend systems using Node.js, Express, and other backend technologies.",
             icon: <GlobalSearchIcon className="text-secondary" />,
-            keywords: ["SEO Strategy", "Maintenance"]
+            keywords: ["Node.js", "Express", "Backend Development"]
         }
     ];
 
@@ -55,10 +55,10 @@ const Services = () => {
                     <motion.div {...fadeInUp} className="max-w-2xl">
                         <div className="flex items-center gap-2 mb-3">
                             <span className="w-8 h-[1px] bg-primary/40"></span>
-                            <span className="text-primary font-bold uppercase tracking-[0.2em] text-[9px]">Capabilities</span>
+                            <span className="text-primary font-bold uppercase tracking-[0.2em] text-[9px]">What I Do</span>
                         </div>
                         <h2 className="text-3xl md:text-5xl font-bold text-theme font-heading leading-tight italic">
-                            {content?.services_header_title || "Frontend & UI/UX Services."}
+                            { ""}
                         </h2>
                     </motion.div>
                 </div>

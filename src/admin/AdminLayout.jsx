@@ -36,7 +36,7 @@ const AdminLayout = () => {
   const navItems = [
     { name: 'Dashboard', path: '/admin', icon: <DashboardSquare02Icon size={20} /> },
     { name: 'Projects', path: '/admin/projects', icon: <Folder03Icon size={20} /> },
-    { name: 'Content', path: '/admin/content', icon: <TextIcon size={20} /> },
+    { name: 'Website Copy', path: '/admin/content', icon: <TextIcon size={20} /> },
     { name: 'Reviews', path: '/admin/reviews', icon: <Message01Icon size={20} /> },
     { name: 'Blog', path: '/admin/blog', icon: <BookOpen01Icon size={20} /> },
     { name: 'Settings', path: '/admin/settings', icon: <Settings02Icon size={20} /> },

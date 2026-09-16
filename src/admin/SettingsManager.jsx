@@ -22,6 +22,7 @@ const SettingsManager = () => {
   const [saving, setSaving] = useState(false);
   const [resetting, setResetting] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   useEffect(() => {
     if (settings) {
@@ -246,9 +247,19 @@ const SettingsManager = () => {
         </div>
       </div>
 
+      {/* Advanced Settings Toggle */}
+      <div className="border-t border-white/10 pt-8">
+        <button 
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          className="text-white/40 hover:text-white transition-colors text-sm font-bold uppercase tracking-widest flex items-center gap-2"
+        >
+          {showAdvanced ? 'Hide Advanced Settings' : 'Show Advanced Settings'}
+        </button>
+      </div>
+
       {/* Danger Zone */}
-      <div className="border-t border-white/10 pt-12">
-        <div className="bg-red-500/5 border border-red-500/20 rounded-2xl p-8">
+      {showAdvanced && (
+        <div className="bg-red-500/5 border border-red-500/20 rounded-2xl p-8 animate-in slide-in-from-top-4 duration-300">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
               <h3 className="text-xl font-bold text-red-500 flex items-center gap-2 mb-2">
@@ -289,7 +300,7 @@ const SettingsManager = () => {
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

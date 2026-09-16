@@ -131,10 +131,10 @@ const Reviews = () => {
 
   // Rolling Reveal Logic
   useEffect(() => {
-    if (reviews.length <= 3) return;
+    if (reviews.length <= 1) return;
     
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % reviews.length);
+      setCurrentIndex((prev) => prev + 1);
     }, 6000); 
     
     return () => clearInterval(interval);
@@ -143,12 +143,23 @@ const Reviews = () => {
   const getVisibleReviewsWithY = () => {
     if (reviews.length === 0) return { visible: [], totalHeight: 0 };
     
+    // Ensure at least 4 items so that a 3-item sliding window never overlaps identical keys (which causes framer motion glitches)
+    let safeReviews = [...reviews];
+    if (safeReviews.length > 0 && safeReviews.length < 4) {
+      while (safeReviews.length < 4) {
+        safeReviews = [...safeReviews, ...reviews];
+      }
+      safeReviews = safeReviews.map((r, idx) => ({ ...r, renderId: `${r.id}_${idx}` }));
+    } else {
+      safeReviews = safeReviews.map(r => ({ ...r, renderId: r.id }));
+    }
+
     const visible = [];
     const GAP = 20;
     let currentY = 0;
 
     for (let i = 0; i < 3; i++) {
-        const item = reviews[(currentIndex + i) % reviews.length];
+        const item = safeReviews[(currentIndex + i) % safeReviews.length];
         if (item) {
             const h = cardHeights[item.id] || 160; // Fallback height
             visible.push({ ...item, y: currentY, isMain: i === 1 });
@@ -199,10 +210,10 @@ const Reviews = () => {
             <div className="space-y-4">
               <h2 className="text-4xl md:text-6xl font-logo text-white leading-tight">
                 Words from<br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">My Clients and Partners</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Colleagues and Clients</span>
               </h2>
               <p className="text-white/60 text-lg max-w-lg mx-auto lg:mx-0">
-               Here's what they have to say about my work.
+               Here's what people I've worked with have to say.
               </p>
             </div>
 
@@ -232,7 +243,7 @@ const Reviews = () => {
                 <AnimatePresence initial={false}>
                     {visible.map((review) => (
                         <ReviewCard 
-                            key={review.id} 
+                            key={review.renderId} 
                             review={review} 
                             isMain={review.isMain} 
                             y={review.y}

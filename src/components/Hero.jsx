@@ -59,22 +59,16 @@ const Hero = () => {
                                 transition={{ ...fadeInUp.transition, delay: 0.1 }}
                                 className="text-2xl md:text-3xl font-logo font-bold mb-3 text-theme-muted text-center"
                             >
-                                Software Developer & UI Designer
+                                Software Developer
                             </motion.h2>
                             <motion.p
                                 {...fadeInUp}
                                 transition={{ ...fadeInUp.transition, delay: 0.2 }}
                                 className="text-lg md:text-xl mb-2 text-theme text-center leading-relaxed"
                             >
-                                {content?.hero_description1 || "I build exceptional digital experiences that live at the intersection of design and engineering."}
+                                {content?.hero_description1 || "I enjoy turning Ideas into clean, functional, and meaningful digital experiences."}
                             </motion.p>
-                            <motion.p
-                                {...fadeInUp}
-                                transition={{ ...fadeInUp.transition, delay: 0.3 }}
-                                className="text-lg md:text-xl mb-8 text-theme text-center"
-                            >
-                                {content?.hero_description2 || "My focus is on creating fast, scalable, and visually stunning web applications that elevate your brand and drive results."}
-                            </motion.p>
+
                         </div>
 
                         <motion.div
