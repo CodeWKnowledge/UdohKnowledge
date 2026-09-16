@@ -7,13 +7,21 @@ import { useSupabase } from '../context/SupabaseContext';
 
 const BlogPost = () => {
   const { slug } = useParams();
-  const { posts } = useSupabase();
+  const { posts, loading } = useSupabase();
   const post = posts.find(p => p.slug === slug);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+
+  if (loading && !post) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-theme-bg">
+        <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (!post) {
     return <Navigate to="/blog" replace />;

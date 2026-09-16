@@ -7,7 +7,7 @@ import { useSupabase } from "../context/SupabaseContext";
 
 const ProjectDetails = () => {
     const { id } = useParams();
-    const { projects } = useSupabase();
+    const { projects, loading } = useSupabase();
 
     const dataToUse = projects && projects.length > 0 ? projects : staticProjects;
 
@@ -32,6 +32,14 @@ const ProjectDetails = () => {
         viewport: { once: true },
         transition: { duration: 0.8, ease: "easeOut" }
     };
+
+    if (loading && !project) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-theme-bg">
+                <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+            </div>
+        );
+    }
 
     if (!project) {
         return (
