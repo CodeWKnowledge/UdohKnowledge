@@ -26,28 +26,33 @@ const SiteManager = () => {
     let type = "website";
     let schema = [];
 
-    // Default Person & Organization Schema
+    // Default Person Schema (for homepage)
     const personSchema = {
+      "@context": "https://schema.org",
       "@type": "Person",
       "@id": `${baseUrl}/#person`,
       "name": "Knowledge Udoh",
-      "jobTitle": "Lead Frontend Engineer",
+      "alternateName": ["CodeWKnowledge", "Knowledge"],
+      "jobTitle": "Software Developer & Frontend Engineer",
+      "description": "Knowledge Udoh is a Software Developer and Frontend Engineer who builds clean, functional, and meaningful digital experiences. Known online as CodeWKnowledge.",
       "url": baseUrl,
+      "image": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/og-image.png`,
+        "caption": "Knowledge Udoh - Software Developer"
+      },
       "sameAs": [
         "https://linkedin.com/in/knowledge54",
         "https://github.com/CODEWKNOWLEDGE",
-        "https://x.com/CodeWKnowledge"
+        "https://x.com/CodeWKnowledge",
+        "https://twitter.com/CodeWKnowledge",
+        "https://www.tiktok.com/@codewithknowledge",
+        baseUrl
+      ],
+      "knowsAbout": [
+        "React", "JavaScript", "TypeScript", "Frontend Development",
+        "UI/UX Design", "Next.js", "Web Development", "Supabase", "Node.js"
       ]
-    };
-
-    const orgSchema = {
-      "@type": "Organization",
-      "@id": `${baseUrl}/#organization`,
-      "name": `${siteName} Web Agency`,
-      "url": baseUrl,
-      "logo": `${baseUrl}/og-image.png`,
-      "description": "Premium business website development and custom React solutions.",
-      "founder": { "@id": `${baseUrl}/#person` }
     };
 
     // Route-specific logic
@@ -101,14 +106,14 @@ const SiteManager = () => {
         });
       }
     } else if (location.pathname === '/blog') {
-      title = `Blog & Insights | ${siteName} Agency`;
-      description = "Read our expert insights on custom website development, business web design, and digital scaling.";
+      title = `Blog | ${siteName}`;
+      description = "Insights and articles on frontend development, web design, and building digital products by Knowledge Udoh.";
     } else if (location.pathname.startsWith('/admin')) {
       title = `Admin Dashboard | ${siteName}`;
       description = "Administrative access for site management.";
     } else {
-      // Homepage / default
-      schema.push(personSchema, orgSchema);
+      // Homepage / default — push Person schema
+      schema.push(personSchema);
     }
 
     // Update Head
